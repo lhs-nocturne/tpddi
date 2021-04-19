@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heb.guitar.mapper.DsmDatasourceTypeMapper">
+  <resultMap id="BaseResultMap" type="com.heb.guitar.entity.DsmDatasourceType">
+    <id column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
+    <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName" />
+    <result column="DRIVER_CLASS" jdbcType="VARCHAR" property="driverClass" />
+    <result column="DIALECT_CLASS" jdbcType="VARCHAR" property="dialectClass" />
+    <result column="TEST_SQL" jdbcType="VARCHAR" property="testSql" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="MEMO1" jdbcType="VARCHAR" property="memo1" />
+    <result column="MEMO2" jdbcType="VARCHAR" property="memo2" />
+    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    TYPE_ID, TYPE_NAME, DRIVER_CLASS, DIALECT_CLASS, TEST_SQL, NOTE, MEMO1, MEMO2, UPDATE_USER, 
+    UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DSM_DATASOURCE_TYPE
+    where TYPE_ID = #{typeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from DSM_DATASOURCE_TYPE
+    where TYPE_ID = #{typeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.heb.guitar.entity.DsmDatasourceType">
+    insert into DSM_DATASOURCE_TYPE (TYPE_ID, TYPE_NAME, DRIVER_CLASS, 
+      DIALECT_CLASS, TEST_SQL, NOTE, 
+      MEMO1, MEMO2, UPDATE_USER, 
+      UPDATE_TIME)
+    values (#{typeId,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{driverClass,jdbcType=VARCHAR}, 
+      #{dialectClass,jdbcType=VARCHAR}, #{testSql,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{memo1,jdbcType=VARCHAR}, #{memo2,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.heb.guitar.entity.DsmDatasourceType">
+    insert into DSM_DATASOURCE_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="typeId != null">
+        TYPE_ID,
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME,
+      </if>
+      <if test="driverClass != null">
+        DRIVER_CLASS,
+      </if>
+      <if test="dialectClass != null">
+        DIALECT_CLASS,
+      </if>
+      <if test="testSql != null">
+        TEST_SQL,
+      </if>
+      <if test="note != null">
+        NOTE,
+      </if>
+      <if test="memo1 != null">
+        MEMO1,
+      </if>
+      <if test="memo2 != null">
+        MEMO2,
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="typeId != null">
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="driverClass != null">
+        #{driverClass,jdbcType=VARCHAR},
+      </if>
+      <if test="dialectClass != null">
+        #{dialectClass,jdbcType=VARCHAR},
+      </if>
+      <if test="testSql != null">
+        #{testSql,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="memo1 != null">
+        #{memo1,jdbcType=VARCHAR},
+      </if>
+      <if test="memo2 != null">
+        #{memo2,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.heb.guitar.entity.DsmDatasourceType">
+    update DSM_DATASOURCE_TYPE
+    <set>
+      <if test="typeName != null">
+        TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="driverClass != null">
+        DRIVER_CLASS = #{driverClass,jdbcType=VARCHAR},
+      </if>
+      <if test="dialectClass != null">
+        DIALECT_CLASS = #{dialectClass,jdbcType=VARCHAR},
+      </if>
+      <if test="testSql != null">
+        TEST_SQL = #{testSql,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="memo1 != null">
+        MEMO1 = #{memo1,jdbcType=VARCHAR},
+      </if>
+      <if test="memo2 != null">
+        MEMO2 = #{memo2,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where TYPE_ID = #{typeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.heb.guitar.entity.DsmDatasourceType">
+    update DSM_DATASOURCE_TYPE
+    set TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      DRIVER_CLASS = #{driverClass,jdbcType=VARCHAR},
+      DIALECT_CLASS = #{dialectClass,jdbcType=VARCHAR},
+      TEST_SQL = #{testSql,jdbcType=VARCHAR},
+      NOTE = #{note,jdbcType=VARCHAR},
+      MEMO1 = #{memo1,jdbcType=VARCHAR},
+      MEMO2 = #{memo2,jdbcType=VARCHAR},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where TYPE_ID = #{typeId,jdbcType=VARCHAR}
+  </update>
+
+  <!-- @Description: 获取所有数据源类型-->
+  <select id="selectAll" resultMap="BaseResultMap"
+          parameterType="com.heb.guitar.vo.profession.req.DataTypeVO">
+    select <include refid="Base_Column_List"></include>
+    from DSM_DATASOURCE_TYPE
+    limit ((${pageNum}-1)*${pageSize}),${pageSize}
+  </select>
+
+  <!-- @Description: 获取所有的数据源类型的总数-->
+  <select id="dataTypeCount" resultType="long" parameterType="com.heb.guitar.vo.profession.req.DataTypeVO">
+    select count(*) as num
+    from DSM_DATASOURCE_TYPE
+  </select>
+
+</mapper>
