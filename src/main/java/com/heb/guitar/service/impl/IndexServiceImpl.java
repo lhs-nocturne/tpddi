@@ -67,7 +67,7 @@ public class IndexServiceImpl implements IndexService {
         }
         indexHomeRespVO.setUserInfo(respVO);
         LogoInfoRespVO logoInfoRespVO = new LogoInfoRespVO();
-        logoInfoRespVO.setTitle("MY SYSTEM");
+        logoInfoRespVO.setTitle("达梦数据库");
         logoInfoRespVO.setImage("/images/logo.png");
         logoInfoRespVO.setHref("");
         HomeInfoRespVO homeInfoRespVO = new HomeInfoRespVO();

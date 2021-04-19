@@ -42,7 +42,7 @@ public class CustomAccessControlerFilter extends AccessControlFilter {
         log.info(request.getRequestURL().toString());
         //判断客户端是否携带accessToken
         try {
-            String accessToken=request.getHeader(Constant.ACCESS_TOKEN);
+            String accessToken = request.getHeader(Constant.ACCESS_TOKEN);
             if(StringUtils.isEmpty(accessToken)){
                 throw new BusinessException(BaseResponseCode.TOKEN_NOT_NULL);
             }

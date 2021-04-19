@@ -89,5 +89,10 @@ public class IndexController {
         return "page/icon";
     }
 
+    @GetMapping("/dsmDatasourceType")
+    @ApiOperation(value = "跳转图标页面")
+    public String dsmDatasourceTypeList(){
+        return "page/data/data_type";
+    }
 
 }

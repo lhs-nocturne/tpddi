@@ -1,10 +1,272 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xml:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <title>log</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+    <link rel="stylesheet" href="/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
 </head>
 <body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <table class="layui-hide" id="datasourceType_table" lay-filter="datasourceType_table"></table>
+        <div id="laypage" class="layui-laypage-btn"></div>
+
+    </div>
+</div>
+
+<script type="text/html" id="toolbar">
+    <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="addDatasourceType">
+        <i class="layui-icon">&#xe654;</i> 新增 </button>
+</script>
+
+<script type="text/html" id="tool">
+    <button class="layui-btn layui-btn-primary layui-btn-xs data-add-btn" lay-event="edit"> 编辑 </button>
+    <button class="layui-btn layui-btn-xs layui-btn-danger data-delete-btn" lay-event="del"> 删除 </button>
+</script>
+
+<!---================表单开始======================-->
+<script type="text/html" id="addWin">
+    <div class="panel panel-default operation_datasource_type">
+        <div class="layui-form layuimini-form" style="margin: 30px">
+            <input type="text" name="typeId" hidden>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">数据源类型名称</label>
+                <div class="layui-input-block">
+                    <select name="typeName" lay-filter="typeName" lay-reqtext="数据源类型名称不能为空" lay-verify="required">
+                        <option value="" selected=""></option>
+                        <option value="dm">dm</option>
+                        <option value="mysql">mysql</option>
+                        <option value="oracle">oracle</option>
+                        <option value="sqlserver">sqlserver</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">JDBC驱动</label>
+                <div class="layui-input-block">
+                    <input type="driverClass" name="driverClass" lay-verify="required" placeholder="请输入JDBC驱动" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">方言实现类</label>
+                <div class="layui-input-block">
+                    <input type="dialectClass" name="dialectClass" placeholder="请输入方言实现类" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">测试sql</label>
+                <div class="layui-input-block">
+                    <input type="testSql" name="testSql" placeholder="请输入测试sql" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"></fieldset>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="submit" type="submit">
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;&nbsp;保存</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="btn_cancel">
+                        <i class="fa fa-undo" aria-hidden="true"></i>&nbsp;&nbsp;返回</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<!---================表单结束======================-->
+
+<script src="/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/js/core-util.js" charset="utf-8"></script>
+<script>
+    layui.use(['jquery', 'form','table','laypage', 'layer','laydate'], function () {
+        var table = layui.table,
+            laypage = layui.laypage,
+            form = layui.form,
+            layer = layui.layer,
+            $ = layui.jquery,
+            laydate = layui.laydate;
+        var searchParam= {
+            pageNum:1,
+            pageSize:10,
+            username:null,
+            operation:null,
+        }
+        //日期范围
+        laydate.render({
+            elem: '#createTime',
+            type: 'datetime',
+            range: true
+        });
+        var initTable = function(){
+            /*动态获取数据*/
+            CoreUtil.sendAjax("/api/datasourceTypes",JSON.stringify(searchParam),function (res) {
+                //初始化分页器
+                laypageTable(res.data.totalRows,searchParam.pageNum);
+                //初始化渲染数据
+                if(res.data !=null){
+                    loadTable(res.data.list);
+                }
+            },"POST",false, function (res) {
+                //无权限访问操作日志列表提示
+                layer.msg("抱歉！您暂无获取操作日志列表的权限");
+                var noAuthorityData=[];
+                loadTable(noAuthorityData);
+            });
+        }
+        /*初始化表格*/
+        initTable();
+
+        //渲染分页插件
+        var laypageTable = function(count,currentPage) {
+            laypage.render({
+                elem: 'laypage'
+                , count: count
+                ,theme: '#1E9FFF'
+                ,limit:searchParam.pageSize
+                , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                ,curr: location.hash.replace('#!currentPage=', '') //获取起始页
+                ,hash: 'currentPage' //自定义hash值
+                , jump: function (obj,first) {
+                    if (!first){
+                        searchParam.pageNum=obj.curr;
+                        searchParam.pageSize=obj.limit;
+                        CoreUtil.sendAjax("/api/datasourceTypes",JSON.stringify(searchParam),function (res) {
+                            if(res.data !=null){
+                                loadTable(res.data.list);
+                                laypageTable(res.data.totalRows,searchParam.pageNum);
+                            }
+                        },"POST",false, function (res) {
+                            //无权限访问操作日志列表提示
+                            layer.msg("抱歉！您暂无获取操作日志列表的权限");
+                            var noAuthorityData=[];
+                            loadTable(noAuthorityData);
+                        });
+                    }
+                }
+            });
+        };
+
+        //渲染table
+        var loadTable = function (data) {
+            //展示已知数据
+            table.render({
+                elem: '#datasourceType_table'
+                ,cols: [
+                    [
+                        {type: 'checkbox', fixed: 'left'},
+                        {type: 'numbers', title: '序号', width: 80},
+                        {field: 'typeId', title: 'ID', hide: true},
+                        {field: 'typeName', title: '数据源类型名称', width: 200},
+                        {field: 'driverClass', title: 'JDBC驱动', width: 300},
+                        {field: 'dialectClass', title: '方言实现类', width: 200},
+                        {field: 'testSql', title: '测试语句', width: 300},
+                        {title:'操作',toolbar:'#tool', align: 'center' ,width: 200}
+                    ]
+                ]
+                ,data: data
+                ,even: true
+                ,limit: data.length
+                ,limits: [10, 20, 30, 40, 50]
+                ,toolbar: '#toolbar'
+            });
+        };
+
+        $(document).on('click',"#btn_cancel",function () {
+            layer.closeAll();
+        });
+
+        //打开新增或编辑窗口
+        var openWindow = function (data,type) {
+            var title = type === 'add' ? '新增数据源类型' : '修改数据源类型';
+            var index = layer.open({
+                title: title,
+                type: 1,
+                shade: 0.2,
+                maxmin:false,
+                shadeClose: true,
+                area: ['100%', '100%'],
+                content: $("#addWin").html(),
+                success: function () {
+                    if(type==='edit'){
+                        $(".operation_datasource_type input[name=typeId]").val(data.typeId);
+                        $(".operation_datasource_type select[name=typeName]").val(data.typeName);
+                        $(".operation_datasource_type input[name=driverClass]").val(data.driverClass);
+                        $(".operation_datasource_type input[name=dialectClass]").val(data.dialectClass);
+                        $(".operation_datasource_type input[name=testSql]").val(data.testSql);
+                    }else {
+                        $(".operation_datasource_type input[name=typeId]").val('');
+                    }
+                    form.render();
+                }
+            });
+            $(window).on("resize", function () {
+                layer.full(index);
+            });
+        }
+
+        //新增菜单权限事件
+        table.on('toolbar(datasourceType_table)',function (obj) {
+            if(obj.event === 'addDatasourceType'){
+                openWindow(null,'add');
+            }
+        });
+
+        //保存监听提交
+        form.on('submit(submit)', function(data){
+            //新增
+            if(data.field.typeId===undefined || data.field.typeId===null || data.field.typeId===""){
+                CoreUtil.sendAjax("/api/datasourceType",JSON.stringify(data.field),function (res) {
+                    if(res.code === 0){
+                        layer.closeAll();
+                        initTable();
+                    }
+                    layer.msg(res.msg);
+                },"POST",false, function (res) {
+                    //新增用户无权限提示
+                    layer.msg("抱歉！您暂无新增的权限");
+                });
+            }else {
+                CoreUtil.sendAjax("/api/datasourceType",JSON.stringify(data.field),function (res) {
+                    layer.closeAll();
+                    initTable();
+                    layer.msg(res.msg);
+                },"PUT",false, function (res) {
+                    //无权限更新角色提示
+                    layer.msg("抱歉！您暂无更新的权限");
+                });
+            }
+        });
+
+        table.on('tool(datasourceType_table)', function (obj) {
+            var data = obj.data;
+            if(obj.event === 'edit'){
+                openWindow(data,'edit');
+            }
+            if(obj.event === 'del'){
+                layer.confirm('确定要删除选中信息吗？', {
+                    btn: ['确定','取消'], //按钮
+                    title: '提示'
+                }, function(index){
+                    CoreUtil.sendAjax("/api/datasourceTypes/"+data.typeId,null,function (res) {
+                        layer.close(index); //如果设定了yes回调，需进行手工关闭
+                        initTable();
+                        layer.msg(res.msg);
+                    },"DELETE",true, function (res) {
+                        //无权限删除操作日志提示
+                        layer.msg("抱歉！您暂无删除操作的权限");
+                    });
+                }, function(index){
+                    layer.close(index);
+                });
+            }
+        });
+
+
+    });
+</script>
 
 </body>
 </html>

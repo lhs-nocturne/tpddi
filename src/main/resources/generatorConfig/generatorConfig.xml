@@ -45,13 +45,13 @@
                              type="MAPPER">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
-        <table tableName="SYS_LOG" domainObjectName="SysLog"
+        <table tableName="DSM_DATASOURCE_TYPE" domainObjectName="DsmDatasourceType"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                selectByExampleQueryId="true">
-            <columnOverride column="time" javaType="java.lang.Integer"/>
+            <columnOverride column="update_time" javaType="java.util.Date"/>
         </table>
         <!--<table tableName="SYS_USER" domainObjectName="SysUser"
                enableCountByExample="false"
