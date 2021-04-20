@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heb.guitar.mapper.DsmDatasourceMapper">
+  <resultMap id="BaseResultMap" type="com.heb.guitar.entity.DsmDatasource">
+    <id column="DATASOURCE_ID" jdbcType="VARCHAR" property="datasourceId" />
+    <result column="NODE_CODE" jdbcType="VARCHAR" property="nodeCode" />
+    <result column="DATASOURCE_TYPE" jdbcType="VARCHAR" property="datasourceType" />
+    <result column="DATASOURCE_NAME" jdbcType="VARCHAR" property="datasourceName" />
+    <result column="DATASOURCE_CLASSIFY" jdbcType="INTEGER" property="datasourceClassify" />
+    <result column="HOST" jdbcType="VARCHAR" property="host" />
+    <result column="PORT" jdbcType="VARCHAR" property="port" />
+    <result column="USERNAME" jdbcType="VARCHAR" property="username" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="DATABASE_NAME" jdbcType="VARCHAR" property="databaseName" />
+    <result column="SCHEMA_NAME" jdbcType="VARCHAR" property="schemaName" />
+    <result column="JDBC_URL" jdbcType="VARCHAR" property="jdbcUrl" />
+    <result column="INITIAL_SIZE" jdbcType="INTEGER" property="initialSize" />
+    <result column="MIN_IDLE" jdbcType="INTEGER" property="minIdle" />
+    <result column="MAX_IDLE" jdbcType="INTEGER" property="maxIdle" />
+    <result column="MAX_ACTIVE" jdbcType="INTEGER" property="maxActive" />
+    <result column="MAX_WAIT" jdbcType="INTEGER" property="maxWait" />
+    <result column="AUTO_CONNECT" jdbcType="INTEGER" property="autoConnect" />
+    <result column="POOL_PREPARED" jdbcType="INTEGER" property="poolPrepared" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="SECURITY_LEVEL" jdbcType="INTEGER" property="securityLevel" />
+    <result column="SORT_NUM" jdbcType="INTEGER" property="sortNum" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="MEMO1" jdbcType="VARCHAR" property="memo1" />
+    <result column="MEMO2" jdbcType="VARCHAR" property="memo2" />
+    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="FZDW" jdbcType="VARCHAR" property="fzdw" />
+    <result column="FZR" jdbcType="VARCHAR" property="fzr" />
+    <result column="LXFS" jdbcType="VARCHAR" property="lxfs" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    DATASOURCE_ID, NODE_CODE, DATASOURCE_TYPE, DATASOURCE_NAME, DATASOURCE_CLASSIFY, 
+    HOST, PORT, USERNAME, PASSWORD, DATABASE_NAME, SCHEMA_NAME, JDBC_URL, INITIAL_SIZE, 
+    MIN_IDLE, MAX_IDLE, MAX_ACTIVE, MAX_WAIT, AUTO_CONNECT, POOL_PREPARED, STATUS, SECURITY_LEVEL, 
+    SORT_NUM, NOTE, MEMO1, MEMO2, UPDATE_USER, UPDATE_TIME, FZDW, FZR, LXFS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DSM_DATASOURCE
+    where DATASOURCE_ID = #{datasourceId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from DSM_DATASOURCE
+    where DATASOURCE_ID = #{datasourceId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.heb.guitar.entity.DsmDatasource">
+    insert into DSM_DATASOURCE (DATASOURCE_ID, NODE_CODE, DATASOURCE_TYPE, 
+      DATASOURCE_NAME, DATASOURCE_CLASSIFY, HOST, 
+      PORT, USERNAME, PASSWORD, 
+      DATABASE_NAME, SCHEMA_NAME, JDBC_URL, 
+      INITIAL_SIZE, MIN_IDLE, MAX_IDLE, 
+      MAX_ACTIVE, MAX_WAIT, AUTO_CONNECT, 
+      POOL_PREPARED, STATUS, SECURITY_LEVEL, 
+      SORT_NUM, NOTE, MEMO1, 
+      MEMO2, UPDATE_USER, UPDATE_TIME, 
+      FZDW, FZR, LXFS)
+    values (#{datasourceId,jdbcType=VARCHAR}, #{nodeCode,jdbcType=VARCHAR}, #{datasourceType,jdbcType=VARCHAR}, 
+      #{datasourceName,jdbcType=VARCHAR}, #{datasourceClassify,jdbcType=INTEGER}, #{host,jdbcType=VARCHAR}, 
+      #{port,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{databaseName,jdbcType=VARCHAR}, #{schemaName,jdbcType=VARCHAR}, #{jdbcUrl,jdbcType=VARCHAR}, 
+      #{initialSize,jdbcType=INTEGER}, #{minIdle,jdbcType=INTEGER}, #{maxIdle,jdbcType=INTEGER}, 
+      #{maxActive,jdbcType=INTEGER}, #{maxWait,jdbcType=INTEGER}, #{autoConnect,jdbcType=INTEGER}, 
+      #{poolPrepared,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{securityLevel,jdbcType=INTEGER}, 
+      #{sortNum,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, #{memo1,jdbcType=VARCHAR}, 
+      #{memo2,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{fzdw,jdbcType=VARCHAR}, #{fzr,jdbcType=VARCHAR}, #{lxfs,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.heb.guitar.entity.DsmDatasource">
+    insert into DSM_DATASOURCE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="datasourceId != null">
+        DATASOURCE_ID,
+      </if>
+      <if test="nodeCode != null">
+        NODE_CODE,
+      </if>
+      <if test="datasourceType != null">
+        DATASOURCE_TYPE,
+      </if>
+      <if test="datasourceName != null">
+        DATASOURCE_NAME,
+      </if>
+      <if test="datasourceClassify != null">
+        DATASOURCE_CLASSIFY,
+      </if>
+      <if test="host != null">
+        HOST,
+      </if>
+      <if test="port != null">
+        PORT,
+      </if>
+      <if test="username != null">
+        USERNAME,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="databaseName != null">
+        DATABASE_NAME,
+      </if>
+      <if test="schemaName != null">
+        SCHEMA_NAME,
+      </if>
+      <if test="jdbcUrl != null">
+        JDBC_URL,
+      </if>
+      <if test="initialSize != null">
+        INITIAL_SIZE,
+      </if>
+      <if test="minIdle != null">
+        MIN_IDLE,
+      </if>
+      <if test="maxIdle != null">
+        MAX_IDLE,
+      </if>
+      <if test="maxActive != null">
+        MAX_ACTIVE,
+      </if>
+      <if test="maxWait != null">
+        MAX_WAIT,
+      </if>
+      <if test="autoConnect != null">
+        AUTO_CONNECT,
+      </if>
+      <if test="poolPrepared != null">
+        POOL_PREPARED,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="securityLevel != null">
+        SECURITY_LEVEL,
+      </if>
+      <if test="sortNum != null">
+        SORT_NUM,
+      </if>
+      <if test="note != null">
+        NOTE,
+      </if>
+      <if test="memo1 != null">
+        MEMO1,
+      </if>
+      <if test="memo2 != null">
+        MEMO2,
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="fzdw != null">
+        FZDW,
+      </if>
+      <if test="fzr != null">
+        FZR,
+      </if>
+      <if test="lxfs != null">
+        LXFS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="datasourceId != null">
+        #{datasourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeCode != null">
+        #{nodeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="datasourceType != null">
+        #{datasourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="datasourceName != null">
+        #{datasourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="datasourceClassify != null">
+        #{datasourceClassify,jdbcType=INTEGER},
+      </if>
+      <if test="host != null">
+        #{host,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null">
+        #{port,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="databaseName != null">
+        #{databaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="schemaName != null">
+        #{schemaName,jdbcType=VARCHAR},
+      </if>
+      <if test="jdbcUrl != null">
+        #{jdbcUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="initialSize != null">
+        #{initialSize,jdbcType=INTEGER},
+      </if>
+      <if test="minIdle != null">
+        #{minIdle,jdbcType=INTEGER},
+      </if>
+      <if test="maxIdle != null">
+        #{maxIdle,jdbcType=INTEGER},
+      </if>
+      <if test="maxActive != null">
+        #{maxActive,jdbcType=INTEGER},
+      </if>
+      <if test="maxWait != null">
+        #{maxWait,jdbcType=INTEGER},
+      </if>
+      <if test="autoConnect != null">
+        #{autoConnect,jdbcType=INTEGER},
+      </if>
+      <if test="poolPrepared != null">
+        #{poolPrepared,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="securityLevel != null">
+        #{securityLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sortNum != null">
+        #{sortNum,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="memo1 != null">
+        #{memo1,jdbcType=VARCHAR},
+      </if>
+      <if test="memo2 != null">
+        #{memo2,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fzdw != null">
+        #{fzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="fzr != null">
+        #{fzr,jdbcType=VARCHAR},
+      </if>
+      <if test="lxfs != null">
+        #{lxfs,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.heb.guitar.entity.DsmDatasource">
+    update DSM_DATASOURCE
+    <set>
+      <if test="nodeCode != null">
+        NODE_CODE = #{nodeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="datasourceType != null">
+        DATASOURCE_TYPE = #{datasourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="datasourceName != null">
+        DATASOURCE_NAME = #{datasourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="datasourceClassify != null">
+        DATASOURCE_CLASSIFY = #{datasourceClassify,jdbcType=INTEGER},
+      </if>
+      <if test="host != null">
+        HOST = #{host,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null">
+        PORT = #{port,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="databaseName != null">
+        DATABASE_NAME = #{databaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="schemaName != null">
+        SCHEMA_NAME = #{schemaName,jdbcType=VARCHAR},
+      </if>
+      <if test="jdbcUrl != null">
+        JDBC_URL = #{jdbcUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="initialSize != null">
+        INITIAL_SIZE = #{initialSize,jdbcType=INTEGER},
+      </if>
+      <if test="minIdle != null">
+        MIN_IDLE = #{minIdle,jdbcType=INTEGER},
+      </if>
+      <if test="maxIdle != null">
+        MAX_IDLE = #{maxIdle,jdbcType=INTEGER},
+      </if>
+      <if test="maxActive != null">
+        MAX_ACTIVE = #{maxActive,jdbcType=INTEGER},
+      </if>
+      <if test="maxWait != null">
+        MAX_WAIT = #{maxWait,jdbcType=INTEGER},
+      </if>
+      <if test="autoConnect != null">
+        AUTO_CONNECT = #{autoConnect,jdbcType=INTEGER},
+      </if>
+      <if test="poolPrepared != null">
+        POOL_PREPARED = #{poolPrepared,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="securityLevel != null">
+        SECURITY_LEVEL = #{securityLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sortNum != null">
+        SORT_NUM = #{sortNum,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="memo1 != null">
+        MEMO1 = #{memo1,jdbcType=VARCHAR},
+      </if>
+      <if test="memo2 != null">
+        MEMO2 = #{memo2,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fzdw != null">
+        FZDW = #{fzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="fzr != null">
+        FZR = #{fzr,jdbcType=VARCHAR},
+      </if>
+      <if test="lxfs != null">
+        LXFS = #{lxfs,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DATASOURCE_ID = #{datasourceId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.heb.guitar.entity.DsmDatasource">
+    update DSM_DATASOURCE
+    set NODE_CODE = #{nodeCode,jdbcType=VARCHAR},
+      DATASOURCE_TYPE = #{datasourceType,jdbcType=VARCHAR},
+      DATASOURCE_NAME = #{datasourceName,jdbcType=VARCHAR},
+      DATASOURCE_CLASSIFY = #{datasourceClassify,jdbcType=INTEGER},
+      HOST = #{host,jdbcType=VARCHAR},
+      PORT = #{port,jdbcType=VARCHAR},
+      USERNAME = #{username,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      DATABASE_NAME = #{databaseName,jdbcType=VARCHAR},
+      SCHEMA_NAME = #{schemaName,jdbcType=VARCHAR},
+      JDBC_URL = #{jdbcUrl,jdbcType=VARCHAR},
+      INITIAL_SIZE = #{initialSize,jdbcType=INTEGER},
+      MIN_IDLE = #{minIdle,jdbcType=INTEGER},
+      MAX_IDLE = #{maxIdle,jdbcType=INTEGER},
+      MAX_ACTIVE = #{maxActive,jdbcType=INTEGER},
+      MAX_WAIT = #{maxWait,jdbcType=INTEGER},
+      AUTO_CONNECT = #{autoConnect,jdbcType=INTEGER},
+      POOL_PREPARED = #{poolPrepared,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=INTEGER},
+      SECURITY_LEVEL = #{securityLevel,jdbcType=INTEGER},
+      SORT_NUM = #{sortNum,jdbcType=INTEGER},
+      NOTE = #{note,jdbcType=VARCHAR},
+      MEMO1 = #{memo1,jdbcType=VARCHAR},
+      MEMO2 = #{memo2,jdbcType=VARCHAR},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      FZDW = #{fzdw,jdbcType=VARCHAR},
+      FZR = #{fzr,jdbcType=VARCHAR},
+      LXFS = #{lxfs,jdbcType=VARCHAR}
+    where DATASOURCE_ID = #{datasourceId,jdbcType=VARCHAR}
+  </update>
+
+  <!-- @Description: 获取所有数据源类型-->
+  <select id="selectAll" resultMap="BaseResultMap"
+          parameterType="com.heb.guitar.vo.profession.req.DataSourceReqVO">
+    select <include refid="Base_Column_List"></include>
+    from DSM_DATASOURCE
+    <where>
+      1=1
+      <if test="datasourceName!=null and datasourceName!=''">
+        AND DATASOURCE_NAME LIKE concat('%',#{datasourceName},'%')
+      </if>
+      <if test="host!=null and host!=''">
+        AND HOST LIKE concat('%',#{host},'%')
+      </if>
+    </where>
+    limit ((${pageNum}-1)*${pageSize}),${pageSize}
+  </select>
+
+  <!-- @Description: 获取所有的数据源类型的总数-->
+  <select id="datasourceCount" resultType="long" parameterType="com.heb.guitar.vo.profession.req.DataSourceReqVO">
+    select count(*) as num
+    from DSM_DATASOURCE
+    <where>
+      1=1
+      <if test="datasourceName!=null and datasourceName!=''">
+        AND DATASOURCE_NAME LIKE concat('%',#{datasourceName},'%')
+      </if>
+      <if test="host!=null and host!=''">
+        AND HOST LIKE concat('%',#{host},'%')
+      </if>
+    </where>
+  </select>
+
+</mapper>

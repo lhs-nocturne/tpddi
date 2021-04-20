@@ -95,4 +95,9 @@ public class IndexController {
         return "page/data/data_type";
     }
 
+    @GetMapping("/datasource")
+    @ApiOperation(value = "跳转数据眼管理")
+    public String datasourceList(){
+        return "page/data/datasource";
+    }
 }

@@ -165,4 +165,11 @@
     from DSM_DATASOURCE_TYPE
   </select>
 
+  <!-- @Description: 获取所有数据源类型-->
+  <select id="all" resultMap="BaseResultMap"
+          parameterType="com.heb.guitar.vo.profession.req.DataTypeVO">
+    select <include refid="Base_Column_List"></include>
+    from DSM_DATASOURCE_TYPE
+  </select>
+
 </mapper>

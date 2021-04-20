@@ -21,4 +21,6 @@ public interface DsmDatasourceTypeMapper {
 
     long dataTypeCount(DataTypeVO vo);
 
+    List<DsmDatasourceType> all();
+
 }

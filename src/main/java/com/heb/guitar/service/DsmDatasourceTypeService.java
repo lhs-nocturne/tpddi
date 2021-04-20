@@ -16,4 +16,6 @@ public interface DsmDatasourceTypeService {
     int insert(DsmDatasourceType dsmDatasourceType);
 
     int update(DsmDatasourceType dsmDatasourceType, HttpServletRequest request);
+
+    DsmDatasourceType getByPrimaryKey(String typeId);
 }
