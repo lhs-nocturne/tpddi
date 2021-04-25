@@ -96,8 +96,14 @@ public class IndexController {
     }
 
     @GetMapping("/datasource")
-    @ApiOperation(value = "跳转数据眼管理")
+    @ApiOperation(value = "跳转数据源管理")
     public String datasourceList(){
         return "page/data/datasource";
+    }
+
+    @GetMapping("/dataset")
+    @ApiOperation(value = "跳转数据集管理")
+    public String datasetList(){
+        return "page/data/dataset";
     }
 }

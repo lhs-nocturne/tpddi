@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heb.guitar.mapper.DsmColumnMapper">
+  <resultMap id="BaseResultMap" type="com.heb.guitar.entity.DsmColumn">
+    <id column="COLUMN_ID" jdbcType="VARCHAR" property="columnId" />
+    <result column="NODE_CODE" jdbcType="VARCHAR" property="nodeCode" />
+    <result column="DICTIONARY_ID" jdbcType="VARCHAR" property="dictionaryId" />
+    <result column="DATASET_ID" jdbcType="VARCHAR" property="datasetId" />
+    <result column="COLUMN_NAME" jdbcType="VARCHAR" property="columnName" />
+    <result column="COLUMN_COMMENT" jdbcType="VARCHAR" property="columnComment" />
+    <result column="COLUMN_LABEL" jdbcType="VARCHAR" property="columnLabel" />
+    <result column="DATA_TYPE" jdbcType="VARCHAR" property="dataType" />
+    <result column="LENGTH" jdbcType="INTEGER" property="length" />
+    <result column="SCALE" jdbcType="INTEGER" property="scale" />
+    <result column="DEFAULT_VALUE" jdbcType="VARCHAR" property="defaultValue" />
+    <result column="DATA_FORMAT" jdbcType="VARCHAR" property="dataFormat" />
+    <result column="DISPLAY_FORMAT" jdbcType="VARCHAR" property="displayFormat" />
+    <result column="IS_NULLABLE" jdbcType="VARCHAR" property="isNullable" />
+    <result column="IS_PK" jdbcType="INTEGER" property="isPk" />
+    <result column="IS_QUERY" jdbcType="INTEGER" property="isQuery" />
+    <result column="COMPARE_TYPE" jdbcType="INTEGER" property="compareType" />
+    <result column="ORDER_TYPE" jdbcType="INTEGER" property="orderType" />
+    <result column="SECURITY_LEVEL" jdbcType="INTEGER" property="securityLevel" />
+    <result column="SORT_NUM" jdbcType="INTEGER" property="sortNum" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="MEMO1" jdbcType="VARCHAR" property="memo1" />
+    <result column="MEMO2" jdbcType="VARCHAR" property="memo2" />
+    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="KEYBOARD_TYPE" jdbcType="INTEGER" property="keyboardType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    COLUMN_ID, NODE_CODE, DICTIONARY_ID, DATASET_ID, COLUMN_NAME, COLUMN_COMMENT, COLUMN_LABEL, 
+    DATA_TYPE, LENGTH, SCALE, DEFAULT_VALUE, DATA_FORMAT, DISPLAY_FORMAT, IS_NULLABLE, 
+    IS_PK, IS_QUERY, COMPARE_TYPE, ORDER_TYPE, SECURITY_LEVEL, SORT_NUM, NOTE, MEMO1, 
+    MEMO2, UPDATE_USER, UPDATE_TIME, KEYBOARD_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DSM_COLUMN
+    where COLUMN_ID = #{columnId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from DSM_COLUMN
+    where COLUMN_ID = #{columnId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.heb.guitar.entity.DsmColumn">
+    insert into DSM_COLUMN (COLUMN_ID, NODE_CODE, DICTIONARY_ID, 
+      DATASET_ID, COLUMN_NAME, COLUMN_COMMENT, 
+      COLUMN_LABEL, DATA_TYPE, LENGTH, 
+      SCALE, DEFAULT_VALUE, DATA_FORMAT, 
+      DISPLAY_FORMAT, IS_NULLABLE, IS_PK, 
+      IS_QUERY, COMPARE_TYPE, ORDER_TYPE, 
+      SECURITY_LEVEL, SORT_NUM, NOTE, 
+      MEMO1, MEMO2, UPDATE_USER, 
+      UPDATE_TIME, KEYBOARD_TYPE)
+    values (#{columnId,jdbcType=VARCHAR}, #{nodeCode,jdbcType=VARCHAR}, #{dictionaryId,jdbcType=VARCHAR}, 
+      #{datasetId,jdbcType=VARCHAR}, #{columnName,jdbcType=VARCHAR}, #{columnComment,jdbcType=VARCHAR}, 
+      #{columnLabel,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, #{length,jdbcType=INTEGER}, 
+      #{scale,jdbcType=INTEGER}, #{defaultValue,jdbcType=VARCHAR}, #{dataFormat,jdbcType=VARCHAR}, 
+      #{displayFormat,jdbcType=VARCHAR}, #{isNullable,jdbcType=VARCHAR}, #{isPk,jdbcType=INTEGER}, 
+      #{isQuery,jdbcType=INTEGER}, #{compareType,jdbcType=INTEGER}, #{orderType,jdbcType=INTEGER}, 
+      #{securityLevel,jdbcType=INTEGER}, #{sortNum,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, 
+      #{memo1,jdbcType=VARCHAR}, #{memo2,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{keyboardType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.heb.guitar.entity.DsmColumn">
+    insert into DSM_COLUMN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="columnId != null">
+        COLUMN_ID,
+      </if>
+      <if test="nodeCode != null">
+        NODE_CODE,
+      </if>
+      <if test="dictionaryId != null">
+        DICTIONARY_ID,
+      </if>
+      <if test="datasetId != null">
+        DATASET_ID,
+      </if>
+      <if test="columnName != null">
+        COLUMN_NAME,
+      </if>
+      <if test="columnComment != null">
+        COLUMN_COMMENT,
+      </if>
+      <if test="columnLabel != null">
+        COLUMN_LABEL,
+      </if>
+      <if test="dataType != null">
+        DATA_TYPE,
+      </if>
+      <if test="length != null">
+        LENGTH,
+      </if>
+      <if test="scale != null">
+        SCALE,
+      </if>
+      <if test="defaultValue != null">
+        DEFAULT_VALUE,
+      </if>
+      <if test="dataFormat != null">
+        DATA_FORMAT,
+      </if>
+      <if test="displayFormat != null">
+        DISPLAY_FORMAT,
+      </if>
+      <if test="isNullable != null">
+        IS_NULLABLE,
+      </if>
+      <if test="isPk != null">
+        IS_PK,
+      </if>
+      <if test="isQuery != null">
+        IS_QUERY,
+      </if>
+      <if test="compareType != null">
+        COMPARE_TYPE,
+      </if>
+      <if test="orderType != null">
+        ORDER_TYPE,
+      </if>
+      <if test="securityLevel != null">
+        SECURITY_LEVEL,
+      </if>
+      <if test="sortNum != null">
+        SORT_NUM,
+      </if>
+      <if test="note != null">
+        NOTE,
+      </if>
+      <if test="memo1 != null">
+        MEMO1,
+      </if>
+      <if test="memo2 != null">
+        MEMO2,
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="keyboardType != null">
+        KEYBOARD_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="columnId != null">
+        #{columnId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeCode != null">
+        #{nodeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryId != null">
+        #{dictionaryId,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetId != null">
+        #{datasetId,jdbcType=VARCHAR},
+      </if>
+      <if test="columnName != null">
+        #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnComment != null">
+        #{columnComment,jdbcType=VARCHAR},
+      </if>
+      <if test="columnLabel != null">
+        #{columnLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null">
+        #{length,jdbcType=INTEGER},
+      </if>
+      <if test="scale != null">
+        #{scale,jdbcType=INTEGER},
+      </if>
+      <if test="defaultValue != null">
+        #{defaultValue,jdbcType=VARCHAR},
+      </if>
+      <if test="dataFormat != null">
+        #{dataFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="displayFormat != null">
+        #{displayFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="isNullable != null">
+        #{isNullable,jdbcType=VARCHAR},
+      </if>
+      <if test="isPk != null">
+        #{isPk,jdbcType=INTEGER},
+      </if>
+      <if test="isQuery != null">
+        #{isQuery,jdbcType=INTEGER},
+      </if>
+      <if test="compareType != null">
+        #{compareType,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="securityLevel != null">
+        #{securityLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sortNum != null">
+        #{sortNum,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="memo1 != null">
+        #{memo1,jdbcType=VARCHAR},
+      </if>
+      <if test="memo2 != null">
+        #{memo2,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keyboardType != null">
+        #{keyboardType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.heb.guitar.entity.DsmColumn">
+    update DSM_COLUMN
+    <set>
+      <if test="nodeCode != null">
+        NODE_CODE = #{nodeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryId != null">
+        DICTIONARY_ID = #{dictionaryId,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetId != null">
+        DATASET_ID = #{datasetId,jdbcType=VARCHAR},
+      </if>
+      <if test="columnName != null">
+        COLUMN_NAME = #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnComment != null">
+        COLUMN_COMMENT = #{columnComment,jdbcType=VARCHAR},
+      </if>
+      <if test="columnLabel != null">
+        COLUMN_LABEL = #{columnLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null">
+        LENGTH = #{length,jdbcType=INTEGER},
+      </if>
+      <if test="scale != null">
+        SCALE = #{scale,jdbcType=INTEGER},
+      </if>
+      <if test="defaultValue != null">
+        DEFAULT_VALUE = #{defaultValue,jdbcType=VARCHAR},
+      </if>
+      <if test="dataFormat != null">
+        DATA_FORMAT = #{dataFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="displayFormat != null">
+        DISPLAY_FORMAT = #{displayFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="isNullable != null">
+        IS_NULLABLE = #{isNullable,jdbcType=VARCHAR},
+      </if>
+      <if test="isPk != null">
+        IS_PK = #{isPk,jdbcType=INTEGER},
+      </if>
+      <if test="isQuery != null">
+        IS_QUERY = #{isQuery,jdbcType=INTEGER},
+      </if>
+      <if test="compareType != null">
+        COMPARE_TYPE = #{compareType,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null">
+        ORDER_TYPE = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="securityLevel != null">
+        SECURITY_LEVEL = #{securityLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sortNum != null">
+        SORT_NUM = #{sortNum,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="memo1 != null">
+        MEMO1 = #{memo1,jdbcType=VARCHAR},
+      </if>
+      <if test="memo2 != null">
+        MEMO2 = #{memo2,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keyboardType != null">
+        KEYBOARD_TYPE = #{keyboardType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where COLUMN_ID = #{columnId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.heb.guitar.entity.DsmColumn">
+    update DSM_COLUMN
+    set NODE_CODE = #{nodeCode,jdbcType=VARCHAR},
+      DICTIONARY_ID = #{dictionaryId,jdbcType=VARCHAR},
+      DATASET_ID = #{datasetId,jdbcType=VARCHAR},
+      COLUMN_NAME = #{columnName,jdbcType=VARCHAR},
+      COLUMN_COMMENT = #{columnComment,jdbcType=VARCHAR},
+      COLUMN_LABEL = #{columnLabel,jdbcType=VARCHAR},
+      DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+      LENGTH = #{length,jdbcType=INTEGER},
+      SCALE = #{scale,jdbcType=INTEGER},
+      DEFAULT_VALUE = #{defaultValue,jdbcType=VARCHAR},
+      DATA_FORMAT = #{dataFormat,jdbcType=VARCHAR},
+      DISPLAY_FORMAT = #{displayFormat,jdbcType=VARCHAR},
+      IS_NULLABLE = #{isNullable,jdbcType=VARCHAR},
+      IS_PK = #{isPk,jdbcType=INTEGER},
+      IS_QUERY = #{isQuery,jdbcType=INTEGER},
+      COMPARE_TYPE = #{compareType,jdbcType=INTEGER},
+      ORDER_TYPE = #{orderType,jdbcType=INTEGER},
+      SECURITY_LEVEL = #{securityLevel,jdbcType=INTEGER},
+      SORT_NUM = #{sortNum,jdbcType=INTEGER},
+      NOTE = #{note,jdbcType=VARCHAR},
+      MEMO1 = #{memo1,jdbcType=VARCHAR},
+      MEMO2 = #{memo2,jdbcType=VARCHAR},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      KEYBOARD_TYPE = #{keyboardType,jdbcType=INTEGER}
+    where COLUMN_ID = #{columnId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

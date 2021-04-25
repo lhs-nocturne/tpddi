@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heb.guitar.mapper.DsmDatasetMapper">
+  <resultMap id="BaseResultMap" type="com.heb.guitar.entity.DsmDataset">
+    <id column="DATASET_ID" jdbcType="VARCHAR" property="datasetId" />
+    <result column="NODE_CODE" jdbcType="VARCHAR" property="nodeCode" />
+    <result column="DATASOURCE_ID" jdbcType="VARCHAR" property="datasourceId" />
+    <result column="SCHEMA_NAME" jdbcType="VARCHAR" property="schemaName" />
+    <result column="DATASET_NAME" jdbcType="VARCHAR" property="datasetName" />
+    <result column="DATASET_COMMENT" jdbcType="VARCHAR" property="datasetComment" />
+    <result column="DATASET_LABEL" jdbcType="VARCHAR" property="datasetLabel" />
+    <result column="DATASET_TYPE" jdbcType="VARCHAR" property="datasetType" />
+    <result column="RECORD_COUNT" jdbcType="BIGINT" property="recordCount" />
+    <result column="INCREASE_COUNT" jdbcType="BIGINT" property="increaseCount" />
+    <result column="COUNT_TIME" jdbcType="TIMESTAMP" property="countTime" />
+    <result column="SECURITY_LEVEL" jdbcType="INTEGER" property="securityLevel" />
+    <result column="SORT_NUM" jdbcType="INTEGER" property="sortNum" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="MEMO1" jdbcType="VARCHAR" property="memo1" />
+    <result column="MEMO2" jdbcType="VARCHAR" property="memo2" />
+    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="BIZ_START_TIME" jdbcType="VARCHAR" property="bizStartTime" />
+    <result column="BIZ_END_TIME" jdbcType="VARCHAR" property="bizEndTime" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    DATASET_ID, NODE_CODE, DATASOURCE_ID, SCHEMA_NAME, DATASET_NAME, DATASET_COMMENT, 
+    DATASET_LABEL, DATASET_TYPE, RECORD_COUNT, INCREASE_COUNT, COUNT_TIME, SECURITY_LEVEL, 
+    SORT_NUM, NOTE, MEMO1, MEMO2, UPDATE_USER, UPDATE_TIME, BIZ_START_TIME, BIZ_END_TIME, 
+    TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DSM_DATASET
+    where DATASET_ID = #{datasetId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from DSM_DATASET
+    where DATASET_ID = #{datasetId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.heb.guitar.entity.DsmDataset">
+    insert into DSM_DATASET (DATASET_ID, NODE_CODE, DATASOURCE_ID, 
+      SCHEMA_NAME, DATASET_NAME, DATASET_COMMENT, 
+      DATASET_LABEL, DATASET_TYPE, RECORD_COUNT, 
+      INCREASE_COUNT, COUNT_TIME, SECURITY_LEVEL, 
+      SORT_NUM, NOTE, MEMO1, 
+      MEMO2, UPDATE_USER, UPDATE_TIME, 
+      BIZ_START_TIME, BIZ_END_TIME, TYPE
+      )
+    values (#{datasetId,jdbcType=VARCHAR}, #{nodeCode,jdbcType=VARCHAR}, #{datasourceId,jdbcType=VARCHAR}, 
+      #{schemaName,jdbcType=VARCHAR}, #{datasetName,jdbcType=VARCHAR}, #{datasetComment,jdbcType=VARCHAR}, 
+      #{datasetLabel,jdbcType=VARCHAR}, #{datasetType,jdbcType=VARCHAR}, #{recordCount,jdbcType=BIGINT}, 
+      #{increaseCount,jdbcType=BIGINT}, #{countTime,jdbcType=TIMESTAMP}, #{securityLevel,jdbcType=INTEGER}, 
+      #{sortNum,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, #{memo1,jdbcType=VARCHAR}, 
+      #{memo2,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{bizStartTime,jdbcType=VARCHAR}, #{bizEndTime,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.heb.guitar.entity.DsmDataset">
+    insert into DSM_DATASET
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="datasetId != null">
+        DATASET_ID,
+      </if>
+      <if test="nodeCode != null">
+        NODE_CODE,
+      </if>
+      <if test="datasourceId != null">
+        DATASOURCE_ID,
+      </if>
+      <if test="schemaName != null">
+        SCHEMA_NAME,
+      </if>
+      <if test="datasetName != null">
+        DATASET_NAME,
+      </if>
+      <if test="datasetComment != null">
+        DATASET_COMMENT,
+      </if>
+      <if test="datasetLabel != null">
+        DATASET_LABEL,
+      </if>
+      <if test="datasetType != null">
+        DATASET_TYPE,
+      </if>
+      <if test="recordCount != null">
+        RECORD_COUNT,
+      </if>
+      <if test="increaseCount != null">
+        INCREASE_COUNT,
+      </if>
+      <if test="countTime != null">
+        COUNT_TIME,
+      </if>
+      <if test="securityLevel != null">
+        SECURITY_LEVEL,
+      </if>
+      <if test="sortNum != null">
+        SORT_NUM,
+      </if>
+      <if test="note != null">
+        NOTE,
+      </if>
+      <if test="memo1 != null">
+        MEMO1,
+      </if>
+      <if test="memo2 != null">
+        MEMO2,
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="bizStartTime != null">
+        BIZ_START_TIME,
+      </if>
+      <if test="bizEndTime != null">
+        BIZ_END_TIME,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="datasetId != null">
+        #{datasetId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeCode != null">
+        #{nodeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="datasourceId != null">
+        #{datasourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="schemaName != null">
+        #{schemaName,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetName != null">
+        #{datasetName,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetComment != null">
+        #{datasetComment,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetLabel != null">
+        #{datasetLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetType != null">
+        #{datasetType,jdbcType=VARCHAR},
+      </if>
+      <if test="recordCount != null">
+        #{recordCount,jdbcType=BIGINT},
+      </if>
+      <if test="increaseCount != null">
+        #{increaseCount,jdbcType=BIGINT},
+      </if>
+      <if test="countTime != null">
+        #{countTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="securityLevel != null">
+        #{securityLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sortNum != null">
+        #{sortNum,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="memo1 != null">
+        #{memo1,jdbcType=VARCHAR},
+      </if>
+      <if test="memo2 != null">
+        #{memo2,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bizStartTime != null">
+        #{bizStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="bizEndTime != null">
+        #{bizEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.heb.guitar.entity.DsmDataset">
+    update DSM_DATASET
+    <set>
+      <if test="nodeCode != null">
+        NODE_CODE = #{nodeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="datasourceId != null">
+        DATASOURCE_ID = #{datasourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="schemaName != null">
+        SCHEMA_NAME = #{schemaName,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetName != null">
+        DATASET_NAME = #{datasetName,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetComment != null">
+        DATASET_COMMENT = #{datasetComment,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetLabel != null">
+        DATASET_LABEL = #{datasetLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetType != null">
+        DATASET_TYPE = #{datasetType,jdbcType=VARCHAR},
+      </if>
+      <if test="recordCount != null">
+        RECORD_COUNT = #{recordCount,jdbcType=BIGINT},
+      </if>
+      <if test="increaseCount != null">
+        INCREASE_COUNT = #{increaseCount,jdbcType=BIGINT},
+      </if>
+      <if test="countTime != null">
+        COUNT_TIME = #{countTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="securityLevel != null">
+        SECURITY_LEVEL = #{securityLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sortNum != null">
+        SORT_NUM = #{sortNum,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="memo1 != null">
+        MEMO1 = #{memo1,jdbcType=VARCHAR},
+      </if>
+      <if test="memo2 != null">
+        MEMO2 = #{memo2,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bizStartTime != null">
+        BIZ_START_TIME = #{bizStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="bizEndTime != null">
+        BIZ_END_TIME = #{bizEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DATASET_ID = #{datasetId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.heb.guitar.entity.DsmDataset">
+    update DSM_DATASET
+    set NODE_CODE = #{nodeCode,jdbcType=VARCHAR},
+      DATASOURCE_ID = #{datasourceId,jdbcType=VARCHAR},
+      SCHEMA_NAME = #{schemaName,jdbcType=VARCHAR},
+      DATASET_NAME = #{datasetName,jdbcType=VARCHAR},
+      DATASET_COMMENT = #{datasetComment,jdbcType=VARCHAR},
+      DATASET_LABEL = #{datasetLabel,jdbcType=VARCHAR},
+      DATASET_TYPE = #{datasetType,jdbcType=VARCHAR},
+      RECORD_COUNT = #{recordCount,jdbcType=BIGINT},
+      INCREASE_COUNT = #{increaseCount,jdbcType=BIGINT},
+      COUNT_TIME = #{countTime,jdbcType=TIMESTAMP},
+      SECURITY_LEVEL = #{securityLevel,jdbcType=INTEGER},
+      SORT_NUM = #{sortNum,jdbcType=INTEGER},
+      NOTE = #{note,jdbcType=VARCHAR},
+      MEMO1 = #{memo1,jdbcType=VARCHAR},
+      MEMO2 = #{memo2,jdbcType=VARCHAR},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      BIZ_START_TIME = #{bizStartTime,jdbcType=VARCHAR},
+      BIZ_END_TIME = #{bizEndTime,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR}
+    where DATASET_ID = #{datasetId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByDatasource" parameterType="com.heb.guitar.entity.DsmDataset" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from DSM_DATASET
+    where DATASOURCE_ID = #{datasourceId,jdbcType=VARCHAR}
+    <if test="datasetName!=null and datasetName!=''">
+      AND DATASET_NAME LIKE concat('%',#{datasetName},'%')
+    </if>
+  </select>
+
+  <!-- 采集数据集批量插入 -->
+  <insert id="batchSave" parameterType="java.util.List">
+    INSERT INTO DSM_DATASET
+    (DATASET_ID, NODE_CODE, DATASOURCE_ID,
+    SCHEMA_NAME, DATASET_NAME, DATASET_COMMENT,
+    DATASET_LABEL, DATASET_TYPE, RECORD_COUNT,
+    INCREASE_COUNT, COUNT_TIME, SECURITY_LEVEL,
+    SORT_NUM, NOTE, MEMO1,
+    MEMO2, UPDATE_USER, UPDATE_TIME,
+    BIZ_START_TIME, BIZ_END_TIME, TYPE
+    )
+    VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.datasetId,jdbcType=VARCHAR}, #{item.nodeCode,jdbcType=VARCHAR}, #{item.datasourceId,jdbcType=VARCHAR},
+      #{item.schemaName,jdbcType=VARCHAR}, #{item.datasetName,jdbcType=VARCHAR}, #{item.datasetComment,jdbcType=VARCHAR},
+      #{item.datasetLabel,jdbcType=VARCHAR}, #{item.datasetType,jdbcType=VARCHAR}, #{item.recordCount,jdbcType=BIGINT},
+      #{item.increaseCount,jdbcType=BIGINT}, #{item.countTime,jdbcType=TIMESTAMP}, #{item.securityLevel,jdbcType=INTEGER},
+      #{item.sortNum,jdbcType=INTEGER}, #{item.note,jdbcType=VARCHAR}, #{item.memo1,jdbcType=VARCHAR},
+      #{item.memo2,jdbcType=VARCHAR}, #{item.updateUser,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP},
+      #{item.bizStartTime,jdbcType=VARCHAR}, #{item.bizEndTime,jdbcType=VARCHAR}, #{item.type,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+
+  <select id="selectByDatasourceId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT <include refid="Base_Column_List" /> FROM DSM_DATASET
+    WHERE DATASOURCE_ID = #{datasourceId,jdbcType=VARCHAR}
+  </select>
+
+  <!-- @Description: 获取所有数集源类型-->
+  <select id="selectAll" resultType="com.heb.guitar.vo.profession.resp.DatasetRespVO"
+          parameterType="com.heb.guitar.vo.profession.req.DatasetReqVO">
+    select A.DATASET_ID datasetId,
+      A.DATASOURCE_ID datasourceId,
+      A.SCHEMA_NAME schemaName,
+      A.DATASET_NAME datasetName,
+      A.DATASET_COMMENT datasetComment,
+      A.DATASET_TYPE datasetType,
+      B.DATASOURCE_NAME datasourceName,
+      B.HOST host
+    from DSM_DATASET A JOIN DSM_DATASOURCE B ON A.DATASOURCE_ID = B.DATASOURCE_ID
+    <where>
+      1=1
+      <if test="datasetName!=null and datasetName!=''">
+        AND A.DATASET_NAME LIKE concat('%',#{datasetName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="datasourceName!=null and datasourceName!=''">
+        AND B.DATASOURCE_NAME LIKE concat('%',#{datasourceName,jdbcType=VARCHAR},'%')
+      </if>
+    </where>
+    ORDER BY A.UPDATE_TIME DESC
+    limit ((${pageNum}-1)*${pageSize}),${pageSize}
+  </select>
+
+  <!-- @Description: 获取所有的数据集类型的总数-->
+  <select id="datasetCount" resultType="long" parameterType="com.heb.guitar.vo.profession.req.DatasetReqVO">
+    select count(1) as num
+    from DSM_DATASET A JOIN DSM_DATASOURCE B ON A.DATASOURCE_ID = B.DATASOURCE_ID
+    <where>
+      1=1
+      <if test="datasetName!=null and datasetName!=''">
+        AND A.DATASET_NAME LIKE concat('%',#{datasetName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="datasourceName!=null and datasourceName!=''">
+        AND B.DATASOURCE_NAME LIKE concat('%',#{datasourceName,jdbcType=VARCHAR},'%')
+      </if>
+    </where>
+  </select>
+
+</mapper>

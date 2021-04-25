@@ -76,6 +76,10 @@ public class UserServiceImpl implements UserService {
         }
         respVO.setAccessToken(access_token);
         respVO.setRefreshToken(refresh_token);
+        /**
+         * 清楚用户授权数据缓存
+         */
+        redisService.delete(Constant.IDENTIFY_CACHE_KEY+sysUser.getId());
         return respVO;
     }
 

@@ -1,15 +1,19 @@
 package com.heb.guitar.controller;
 
+import com.heb.guitar.entity.DsmDataset;
 import com.heb.guitar.entity.DsmDatasource;
 import com.heb.guitar.mapper.DsmDatasourceTypeMapper;
 import com.heb.guitar.service.DsmDatasourceService;
 import com.heb.guitar.utils.DataResult;
 import com.heb.guitar.vo.profession.req.DataSourceReqVO;
+import com.heb.guitar.vo.profession.req.DatasetSourceReqVO;
 import com.heb.guitar.vo.resp.PageVO;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api")
@@ -64,6 +68,13 @@ public class DsmDatasourceController {
         boolean status = dsmDatasourceService.testConnect(dsmDatasource);
         DataResult result= status == true ? DataResult.getResult(0,"连接成功！") :
                 DataResult.getResult(0,"连接失败。");
+        return result;
+    }
+
+    @PostMapping("/datasetSource")
+    public DataResult datasetSource(@RequestBody DatasetSourceReqVO datasetSourceReqVO){
+        List<DsmDataset> list= dsmDatasourceService.datasetSource(datasetSourceReqVO);
+        DataResult result= DataResult.getResult(list);
         return result;
     }
 

@@ -52,6 +52,7 @@
 
 <script type="text/html" id="tool">
     <button class="layui-btn layui-btn-primary layui-btn-xs data-add-btn" lay-event="edit"> 编辑 </button>
+    <button class="layui-btn layui-btn-xs data-add-btn" lay-event="datasetBtn"> 采集数据集 </button>
     <button class="layui-btn layui-btn-xs layui-btn-danger data-delete-btn" lay-event="del"> 删除 </button>
 </script>
 
@@ -87,15 +88,10 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">数据库名</label>
+                <label class="layui-form-label required">模式名</label>
                 <div class="layui-input-block">
-                    <input type="databaseName" name="databaseName" placeholder="请输入数据库名" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">模式名</label>
-                <div class="layui-input-block">
-                    <input type="schemaName" name="schemaName" placeholder="请输入模式名" autocomplete="off" class="layui-input">
+                    <input type="schemaName" name="schemaName" placeholder="请输入模式名" lay-verify="required" lay-reqtext="模式名不能为空" autocomplete="off" class="layui-input">
+                    <tip>对应Mysql数据库名称</tip>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -126,6 +122,67 @@
 </script>
 <!---================表单结束======================-->
 
+<!--============数据集========================================================================================================-->
+<script type="text/html" id="datasetWin">
+    <div class="layuimini-container" style="margin: 10px">
+        <table width="100%" style="align:left">
+            <tr>
+                <td style="width: 45%">
+                    <div class="layuimini-main" >
+                        <fieldset class="table-search-fieldset">
+                            <legend>源数据对象</legend>
+                            <div style="margin: 10px 10px 10px 10px">
+                                <form class="layui-form layui-form-pane" action="">
+                                    <div class="layui-form-item">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">对象名称</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" id="tableName" autocomplete="off" class="layui-input" placeholder="请输入对象名称">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn2">
+                                                <i class="layui-icon"></i> 搜 索</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                          <table class="layui-hide" id="dataset_source_table" lay-filter="dataset_source_table"></table>
+                        </fieldset>
+                    </div>
+                </td>
+                <td align="center" style="width: 10%">
+                    <button type="button" id="collectDataset" class="layui-btn layui-btn-normal">采集数据集 <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+                </td>
+                <td style="width: 45%">
+                    <div class="layuimini-main" >
+                        <fieldset class="table-search-fieldset">
+                            <legend>已采集数据集</legend>
+                            <div style="margin: 10px 10px 10px 10px">
+                                <form class="layui-form layui-form-pane" action="">
+                                    <div class="layui-form-item">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">数据集名称</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" id="datasetName" autocomplete="off" class="layui-input" placeholder="请输入数据集名称">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn3">
+                                                <i class="layui-icon"></i> 搜 索</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                          <table class="layui-hide" id="dataset_target_table" lay-filter="dataset_target_table"></table>
+                        </fieldset>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</script>
+
 <script src="/lib/layui/layui.js" charset="utf-8"></script>
 <script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script src="/js/core-util.js" charset="utf-8"></script>
@@ -144,6 +201,8 @@
             datasourceName:null,
             host:null,
         }
+        var datasetParams;
+
         //数据源类型列表
         var dataTypeList = [];
         //日期范围
@@ -164,7 +223,7 @@
             },"POST",false, function (res) {
                 //无权限访问操作日志列表提示
                 layer.msg("抱歉！您暂无获取操作日志列表的权限");
-                var noAuthorityData=[];
+                let noAuthorityData=[];
                 loadTable(noAuthorityData);
             });
         }
@@ -178,7 +237,7 @@
             },"POST",false, function (res) {
                 //无权限访问操作日志列表提示
                 layer.msg("抱歉！您暂无获取信息的权限");
-                var noAuthorityData=[];
+                let noAuthorityData=[];
                 loadTable(noAuthorityData);
             });
         }
@@ -207,7 +266,7 @@
                         },"POST",false, function (res) {
                             //无权限访问操作日志列表提示
                             layer.msg("抱歉！您暂无获取操作日志列表的权限");
-                            var noAuthorityData=[];
+                            let noAuthorityData=[];
                             loadTable(noAuthorityData);
                         });
                     }
@@ -227,17 +286,15 @@
                         {field: 'datasourceId', title: 'ID', hide: true},
                         {field: 'datasourceName', title: '数据源名称', width: 200},
                         {field: 'datasourceType', title: '数据源类型', width: 100, templet: function (data) {
-                                for(let item of dataTypeList){
-                                    if(item.typeId === data.datasourceType){
-                                        return item.typeName;
-                                    }
+                            for(let item of dataTypeList){
+                                if(item.typeId === data.datasourceType){
+                                    return item.typeName;
                                 }
+                            }
                         }},
-                        {field: 'host', title: '主机IP', width: 200},
+                        {field: 'host', title: '主机IP', width: 150},
                         {field: 'port', title: '端口', width: 100},
-                        {field: 'databaseName', title: '数据库名', width: 120},
                         {field: 'schemaName', title: '模式名', width: 120},
-                        /*{field: 'jdbcUrl', title: '自定义JDBC_URL', width: 300},*/
                         {title:'操作',toolbar:'#tool', align: 'center' ,width: 300}
                     ]
                 ]
@@ -289,7 +346,7 @@
                     },"POST",false, function (res) {
                         //无权限访问操作日志列表提示
                         layer.msg("抱歉！您暂无获取操作列表的权限");
-                        var noAuthorityData=[];
+                        let noAuthorityData=[];
                         loadTable(noAuthorityData);
                     });
                 }
@@ -368,6 +425,10 @@
                     layer.close(index);
                 });
             }
+            if(obj.event === 'datasetBtn'){
+                datasetParams = data;
+                openDataset(data);
+            }
         });
 
         // 监听搜索操作
@@ -385,10 +446,141 @@
             },"POST",false, function (res) {
                 //无权限访问操作日志列表提示
                 layer.msg("抱歉！您暂无权限");
-                var noAuthorityData=[];
+                let noAuthorityData=[];
                 loadTable(noAuthorityData);
             });
             return false;
+        });
+
+<!--============数据集========================================================================================================-->
+
+      var openDataset = function (data) {
+          var index = layer.open({
+              title: '采集数据集',
+              type: 1,
+              shade: 0.2,
+              maxmin:false,
+              shadeClose: true,
+              area: ['100%', '100%'],
+              content: $("#datasetWin").html(),
+              success: function () {
+                  //加载源表格
+                  loadSourceTable(data);
+                  //加载目的表格
+                  loadTargetTable(data);
+              }
+          });
+      }
+
+        //渲染source table
+        var loadSourceTable = function (data) {
+            /*动态获取select数据*/
+            CoreUtil.sendAjax("/api/datasetSource",JSON.stringify(data),function (res) {
+                /*初始化表格*/
+                //展示已知数据
+                table.render({
+                    elem: '#dataset_source_table'
+                    ,cols: [
+                        [
+                            {type: 'checkbox', fixed: 'left'},
+                            {type: 'numbers', title: '序号'},
+                            {field: 'datasourceId', title: 'datasourceId', hide: true},
+                            {field: 'schemaName', title: 'schemaName', hide: true},
+                            {field: 'datasetName', title: '对象名称', minWidth: 300},
+                            {field: 'datasetType', title: '类型', width: 100},
+                            {field: 'datasetComment', title: '注释', width: 200},
+                        ]
+                    ]
+                    ,data: res.data
+                    ,page: true
+                    ,even: true
+                    ,limit: 10
+                    ,limits: [10, 20, 30, 40, 50]
+                    ,height: 'full-230'
+                    //,size: 'sm' //小尺寸的表格
+                });
+            },"POST",false, function (res) {
+                //无权限访问列表提示
+                layer.msg("抱歉！您暂无获取信息的权限");
+                let noAuthorityData=[];
+                loadSourceTable(noAuthorityData);
+            });
+
+        };
+
+        // 监听搜索源数据集对象操作
+        form.on('submit(data-search-btn2)', function () {
+            datasetParams.tableName = $("#tableName").val();
+            loadSourceTable(datasetParams);
+            return false;
+        });
+
+        //渲染target_table
+        var loadTargetTable = function (data) {
+            var dataset = {
+                datasourceId:null,
+                datasetName:null
+            }
+            dataset.datasourceId = data.datasourceId;
+            dataset.datasetName = $("#datasetName").val();
+            /*动态获取select数据*/
+            CoreUtil.sendAjax("/api/selectByDatasource",JSON.stringify(data),function (res) {
+                /*初始化表格*/
+                //展示已知数据
+                table.render({
+                    elem: '#dataset_target_table'
+                    ,cols: [
+                        [
+                            {type: 'checkbox', fixed: 'left'},
+                            {type: 'numbers', title: '序号'},
+                            {field: 'datasourceId', title: 'datasourceId', hide: true},
+                            {field: 'schemaName', title: 'schemaName', hide: true},
+                            {field: 'datasetName', title: '对象名称', minWidth: 300},
+                            {field: 'datasetType', title: '类型', minWidth: 100},
+                            {field: 'datasetComment', title: '注释', width: 200},
+                        ]
+                    ]
+                    ,data: res.data
+                    ,page: true
+                    ,even: true
+                    ,limit: 10
+                    ,limits: [10, 20, 30, 40, 50]
+                    ,height: 'full-230'
+                    //,size: 'sm' //小尺寸的表格
+                });
+            },"POST",false, function (res) {
+                //无权限访问列表提示
+                layer.msg("抱歉！您暂无获取信息的权限");
+                let noAuthorityData=[];
+                loadTargetTable(noAuthorityData);
+            });
+
+        };
+
+        // 监听搜索源数据集对象操作
+        form.on('submit(data-search-btn3)', function () {
+            datasetParams.datasetName = $("#datasetName").val();
+            loadTargetTable(datasetParams);
+            return false;
+        });
+
+        $(document).on('click',"#collectDataset",function () {
+            let data = table.checkStatus("dataset_source_table").data;
+            if(data.length<1){
+                layer.msg('请选择源数据对象。');
+                return false;
+            }
+            CoreUtil.sendAjax("/api/collectDataset",JSON.stringify(data),function (res) {
+                loadTargetTable(datasetParams);
+                //加载源表格
+                loadSourceTable(datasetParams);
+                layer.msg(res.msg);
+            },"POST",false, function (res) {
+                //无权限访问操作日志列表提示
+                layer.msg("抱歉！您暂无权限");
+                let noAuthorityData=[];
+                loadTable(noAuthorityData);
+            });
         });
 
     });
