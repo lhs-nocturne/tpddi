@@ -45,7 +45,7 @@
                              type="MAPPER">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
-        <table tableName="DSM_QUERY_VIEW" domainObjectName="DsmQueryView"
+        <table tableName="DSM_QUERY_VIEW_COLUMN" domainObjectName="DsmQueryViewColumn"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

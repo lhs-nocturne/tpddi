@@ -1,18 +1,14 @@
 package com.heb.guitar.controller;
 
-
-import com.heb.guitar.entity.DsmDatasource;
 import com.heb.guitar.entity.DsmQueryView;
 import com.heb.guitar.service.DsmQueryViewService;
 import com.heb.guitar.utils.DataResult;
-import com.heb.guitar.vo.profession.req.DataSourceReqVO;
 import com.heb.guitar.vo.profession.req.QueryViewReqVO;
 import com.heb.guitar.vo.resp.PageVO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 
 @RestController
@@ -36,6 +32,21 @@ public class DsmQueryViewController {
     public DataResult add(@RequestBody DsmQueryView dsmQueryView){
         DataResult result= DataResult.success();
         result.setData(dsmQueryViewService.insertSelective(dsmQueryView));
+        return result;
+    }
+
+    @PutMapping("/queryView")
+    public DataResult update(@RequestBody @Valid DsmQueryView dsmQueryView
+            , HttpServletRequest request){
+        DataResult result= DataResult.success();
+        result.setData(dsmQueryViewService.updateByPrimaryKeySelective(dsmQueryView));
+        return DataResult.success();
+    }
+
+    @DeleteMapping("/queryView/{id}")
+    public DataResult deleted(@PathVariable("id") String id){
+        DataResult result= DataResult.success();
+        result.setData(dsmQueryViewService.deleteByPrimaryKey(id));
         return result;
     }
 

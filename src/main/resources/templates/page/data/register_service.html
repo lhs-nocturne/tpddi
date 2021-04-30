@@ -58,7 +58,7 @@
 <script type="text/html" id="addWin">
     <div class="panel panel-default operation_query_view">
         <div class="layui-form layuimini-form" style="margin: 30px">
-            <input type="text" name="datasetId" hidden>
+            <input type="text" name="viewId" hidden>
             <div class="layui-form-item">
                 <label class="layui-form-label required">服务名称</label>
                 <div class="layui-input-block">
@@ -159,7 +159,7 @@
             datasourceName:null
         }
         var dataColumn = {
-            datasetId : null,
+            viewId : null,
             columnName : null
         };
         //日期范围
@@ -260,6 +260,7 @@
         //打开新增或编辑窗口
         var openWindow = function (data,type) {
             var title = type === 'add' ? '新增数据源类型' : '修改数据源类型';
+            let initDatasetSelectData = {datasourceId:''};;
             var index = layer.open({
                 title: title,
                 type: 1,
@@ -270,11 +271,14 @@
                 content: $("#addWin").html(),
                 success: function () {
                     if(type==='edit'){
+                        initDatasetSelectData = {datasourceId:data.datasourceId};
                         $(".operation_query_view input[name=viewId]").val(data.viewId);
                         $(".operation_query_view input[name=viewName]").val(data.viewName);
                         $(".operation_query_view input[name=datasetId]").val(data.datasetId);
                         $(".operation_query_view input[name=datasourceId]").val(data.datasourceId);
                         $(".operation_query_view input[name=datasourceName]").val(data.datasourceName);
+                        $(".operation_query_view input[name=datasetId]").val(data.datasetId);
+                        $(".operation_query_view input[name=datasetName]").val(data.datasetName);
                         if(data.status == 1){
                             $(".operation_query_view input[name=status]").attr('checked','checked');
                         }else{
@@ -286,6 +290,7 @@
                     }
                     form.render();
                     initDatasourceSelect();
+                    initDatasetSelect(initDatasetSelectData);
                 }
             });
             $(window).on("resize", function () {
@@ -316,9 +321,11 @@
                     layer.msg("抱歉！您暂无新增的权限");
                 });
             }else {
-                CoreUtil.sendAjax("/api/datasource",JSON.stringify(data.field),function (res) {
-                    layer.closeAll();
-                    initTable();
+                CoreUtil.sendAjax("/api/queryView",JSON.stringify(data.field),function (res) {
+                    if(res.code === 0){
+                        layer.closeAll();
+                        initTable();
+                    }
                     layer.msg(res.msg);
                 },"PUT",false, function (res) {
                     //无权限更新角色提示
@@ -337,7 +344,7 @@
                     btn: ['确定','取消'], //按钮
                     title: '提示'
                 }, function(index){
-                    CoreUtil.sendAjax("/api/dataset/"+data.datasetId,null,function (res) {
+                    CoreUtil.sendAjax("/api/queryView/"+data.viewId,null,function (res) {
                         layer.close(index); //如果设定了yes回调，需进行手工关闭
                         initTable();
                         layer.msg(res.msg);
@@ -377,7 +384,7 @@
 
         let openColumnWin = function (data) {
             let index = layer.open({
-                title: '采集数据集',
+                title: '数据列',
                 type: 1,
                 shade: 0.2,
                 maxmin:false,
@@ -385,7 +392,7 @@
                 area: ['100%', '100%'],
                 content: $("#columnWin").html(),
                 success: function () {
-                    dataColumn.datasetId = data.datasetId;
+                    dataColumn.viewId = data.viewId;
                     loadColumnTable(dataColumn);
                 }
             });
@@ -394,8 +401,9 @@
         //渲染ColumnTable
         var loadColumnTable = function (data) {
             data.columnName = $("#columnName").val();
+            console.log(data)
             /*动态获取select数据*/
-            CoreUtil.sendAjax("/api/selectByDatasetId",JSON.stringify(data),function (res) {
+            CoreUtil.sendAjax("/api/queryViewsColumns",JSON.stringify(data),function (res) {
                 /*初始化表格*/
                 //展示已知数据
                 table.render({
@@ -407,16 +415,11 @@
                             {field: 'columnId', title: 'datasourceId', hide: true},
                             {field: 'columnName', title: '数据列名称', width: 400},
                             {field: 'dataType', title: '数据类型', width: 180},
-                            {field: 'length', title: '精度', width: 120},
-                            {field: 'scale', title: '标度', width: 100},
-                            {field: 'isNullable', title: '是否可为空', width: 100, templet:function (data) {
-                                    if(data.isNullable === 'Y' || data.isNullable === 'YES'){
-                                        return '是';
-                                    }else {
-                                        return '否';
-                                    }
-                                }},
-                            {field: 'columnComment', title: '注释', width: 400},
+                            {field: 'columnComment', title: '注释', width: 200},
+                            {field: 'isResult', title: '是否返回值', width: 120},
+                            {field: 'isQuery', title: '是否查询条件', width: 120},
+                            {field: 'conditionType', title: '查询类型', width: 120},
+                            {field: 'sortNum', title: '排序', width: 80},
                         ]
                     ]
                     ,toolbar: '#columnToolbar'
@@ -454,7 +457,7 @@
                     btn: ['确定','取消'], //按钮
                     title: '提示'
                 }, function(index){
-                    CoreUtil.sendAjax("/api/batchDeleteColumns",JSON.stringify(checkDatas),function (res) {
+                    CoreUtil.sendAjax("/api/batchDeleteViewColumns",JSON.stringify(checkDatas),function (res) {
                         layer.close(index); //如果设定了yes回调，需进行手工关闭
                         loadColumnTable(dataColumn);
                         layer.msg(res.msg);
@@ -509,7 +512,8 @@
                         $(".operation_query_view input[name=datasetId]").val('');
                         //选择完后的回调，包含2个返回值 elem:返回之前input对象；data:表格返回的选中的数据 []
                         //拿到data[]后 就按照业务需求做想做的事情啦~比如加个隐藏域放ID...
-                        initDatasetSelect(data.data[0]);
+                        let initDatasetSelectData = {datasourceId:data.data[0].datasourceId};
+                        initDatasetSelect(initDatasetSelectData);
                     }
                 });
             },"POST",false, function (res) {

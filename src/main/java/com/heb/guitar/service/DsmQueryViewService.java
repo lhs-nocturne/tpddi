@@ -12,4 +12,8 @@ public interface DsmQueryViewService {
     List<QueryViewRespVO> selectAll(QueryViewReqVO queryViewReqVO);
 
     long queryViewCount(QueryViewReqVO queryViewReqVO);
+
+    int updateByPrimaryKeySelective(DsmQueryView record);
+
+    int deleteByPrimaryKey(String viewId);
 }

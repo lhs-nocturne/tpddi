@@ -35,7 +35,8 @@ public class DsmColumnController {
     @PostMapping("/batchDeleteColumns")
     public DataResult batchDeleteColumns(@RequestBody List<DsmColumn> list){
         DataResult result= DataResult.success();
-        result.setData(dsmColumnService.batchDeleteColumns(list));
+        int num = dsmColumnService.batchDeleteColumns(list);
+        result.setData(num);
         return result;
     }
 

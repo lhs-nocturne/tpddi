@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heb.guitar.mapper.DsmQueryViewColumnMapper">
+  <resultMap id="BaseResultMap" type="com.heb.guitar.entity.DsmQueryViewColumn">
+    <id column="COLUMN_ID" jdbcType="VARCHAR" property="columnId" />
+    <result column="VIEW_ID" jdbcType="VARCHAR" property="viewId" />
+    <result column="COLUMN_NAME" jdbcType="VARCHAR" property="columnName" />
+    <result column="COLUMN_COMMENT" jdbcType="VARCHAR" property="columnComment" />
+    <result column="DATA_TYPE" jdbcType="VARCHAR" property="dataType" />
+    <result column="DATA_FORMAT" jdbcType="VARCHAR" property="dataFormat" />
+    <result column="DISPLAY_FORMAT" jdbcType="VARCHAR" property="displayFormat" />
+    <result column="DICTIONARY_ID" jdbcType="VARCHAR" property="dictionaryId" />
+    <result column="IS_RESULT" jdbcType="INTEGER" property="isResult" />
+    <result column="IS_QUERY" jdbcType="INTEGER" property="isQuery" />
+    <result column="CONDITION_TYPE" jdbcType="INTEGER" property="conditionType" />
+    <result column="CONDITION_REQUIRED" jdbcType="INTEGER" property="conditionRequired" />
+    <result column="ORDER_TYPE" jdbcType="INTEGER" property="orderType" />
+    <result column="SORT_NUM" jdbcType="INTEGER" property="sortNum" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="MEMO1" jdbcType="VARCHAR" property="memo1" />
+    <result column="MEMO2" jdbcType="VARCHAR" property="memo2" />
+    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    COLUMN_ID, VIEW_ID, COLUMN_NAME, COLUMN_COMMENT, DATA_TYPE, DATA_FORMAT, DISPLAY_FORMAT, 
+    DICTIONARY_ID, IS_RESULT, IS_QUERY, CONDITION_TYPE, CONDITION_REQUIRED, ORDER_TYPE, 
+    SORT_NUM, NOTE, MEMO1, MEMO2, UPDATE_USER, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DSM_QUERY_VIEW_COLUMN
+    where COLUMN_ID = #{columnId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from DSM_QUERY_VIEW_COLUMN
+    where COLUMN_ID = #{columnId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.heb.guitar.entity.DsmQueryViewColumn">
+    insert into DSM_QUERY_VIEW_COLUMN (COLUMN_ID, VIEW_ID, COLUMN_NAME, 
+      COLUMN_COMMENT, DATA_TYPE, DATA_FORMAT, 
+      DISPLAY_FORMAT, DICTIONARY_ID, IS_RESULT, 
+      IS_QUERY, CONDITION_TYPE, CONDITION_REQUIRED, 
+      ORDER_TYPE, SORT_NUM, NOTE, 
+      MEMO1, MEMO2, UPDATE_USER, 
+      UPDATE_TIME)
+    values (#{columnId,jdbcType=VARCHAR}, #{viewId,jdbcType=VARCHAR}, #{columnName,jdbcType=VARCHAR}, 
+      #{columnComment,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, #{dataFormat,jdbcType=VARCHAR}, 
+      #{displayFormat,jdbcType=VARCHAR}, #{dictionaryId,jdbcType=VARCHAR}, #{isResult,jdbcType=INTEGER}, 
+      #{isQuery,jdbcType=INTEGER}, #{conditionType,jdbcType=INTEGER}, #{conditionRequired,jdbcType=INTEGER}, 
+      #{orderType,jdbcType=INTEGER}, #{sortNum,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, 
+      #{memo1,jdbcType=VARCHAR}, #{memo2,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.heb.guitar.entity.DsmQueryViewColumn">
+    insert into DSM_QUERY_VIEW_COLUMN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="columnId != null">
+        COLUMN_ID,
+      </if>
+      <if test="viewId != null">
+        VIEW_ID,
+      </if>
+      <if test="columnName != null">
+        COLUMN_NAME,
+      </if>
+      <if test="columnComment != null">
+        COLUMN_COMMENT,
+      </if>
+      <if test="dataType != null">
+        DATA_TYPE,
+      </if>
+      <if test="dataFormat != null">
+        DATA_FORMAT,
+      </if>
+      <if test="displayFormat != null">
+        DISPLAY_FORMAT,
+      </if>
+      <if test="dictionaryId != null">
+        DICTIONARY_ID,
+      </if>
+      <if test="isResult != null">
+        IS_RESULT,
+      </if>
+      <if test="isQuery != null">
+        IS_QUERY,
+      </if>
+      <if test="conditionType != null">
+        CONDITION_TYPE,
+      </if>
+      <if test="conditionRequired != null">
+        CONDITION_REQUIRED,
+      </if>
+      <if test="orderType != null">
+        ORDER_TYPE,
+      </if>
+      <if test="sortNum != null">
+        SORT_NUM,
+      </if>
+      <if test="note != null">
+        NOTE,
+      </if>
+      <if test="memo1 != null">
+        MEMO1,
+      </if>
+      <if test="memo2 != null">
+        MEMO2,
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="columnId != null">
+        #{columnId,jdbcType=VARCHAR},
+      </if>
+      <if test="viewId != null">
+        #{viewId,jdbcType=VARCHAR},
+      </if>
+      <if test="columnName != null">
+        #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnComment != null">
+        #{columnComment,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="dataFormat != null">
+        #{dataFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="displayFormat != null">
+        #{displayFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryId != null">
+        #{dictionaryId,jdbcType=VARCHAR},
+      </if>
+      <if test="isResult != null">
+        #{isResult,jdbcType=INTEGER},
+      </if>
+      <if test="isQuery != null">
+        #{isQuery,jdbcType=INTEGER},
+      </if>
+      <if test="conditionType != null">
+        #{conditionType,jdbcType=INTEGER},
+      </if>
+      <if test="conditionRequired != null">
+        #{conditionRequired,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="sortNum != null">
+        #{sortNum,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="memo1 != null">
+        #{memo1,jdbcType=VARCHAR},
+      </if>
+      <if test="memo2 != null">
+        #{memo2,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.heb.guitar.entity.DsmQueryViewColumn">
+    update DSM_QUERY_VIEW_COLUMN
+    <set>
+      <if test="viewId != null">
+        VIEW_ID = #{viewId,jdbcType=VARCHAR},
+      </if>
+      <if test="columnName != null">
+        COLUMN_NAME = #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnComment != null">
+        COLUMN_COMMENT = #{columnComment,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="dataFormat != null">
+        DATA_FORMAT = #{dataFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="displayFormat != null">
+        DISPLAY_FORMAT = #{displayFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryId != null">
+        DICTIONARY_ID = #{dictionaryId,jdbcType=VARCHAR},
+      </if>
+      <if test="isResult != null">
+        IS_RESULT = #{isResult,jdbcType=INTEGER},
+      </if>
+      <if test="isQuery != null">
+        IS_QUERY = #{isQuery,jdbcType=INTEGER},
+      </if>
+      <if test="conditionType != null">
+        CONDITION_TYPE = #{conditionType,jdbcType=INTEGER},
+      </if>
+      <if test="conditionRequired != null">
+        CONDITION_REQUIRED = #{conditionRequired,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null">
+        ORDER_TYPE = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="sortNum != null">
+        SORT_NUM = #{sortNum,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="memo1 != null">
+        MEMO1 = #{memo1,jdbcType=VARCHAR},
+      </if>
+      <if test="memo2 != null">
+        MEMO2 = #{memo2,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where COLUMN_ID = #{columnId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.heb.guitar.entity.DsmQueryViewColumn">
+    update DSM_QUERY_VIEW_COLUMN
+    set VIEW_ID = #{viewId,jdbcType=VARCHAR},
+      COLUMN_NAME = #{columnName,jdbcType=VARCHAR},
+      COLUMN_COMMENT = #{columnComment,jdbcType=VARCHAR},
+      DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+      DATA_FORMAT = #{dataFormat,jdbcType=VARCHAR},
+      DISPLAY_FORMAT = #{displayFormat,jdbcType=VARCHAR},
+      DICTIONARY_ID = #{dictionaryId,jdbcType=VARCHAR},
+      IS_RESULT = #{isResult,jdbcType=INTEGER},
+      IS_QUERY = #{isQuery,jdbcType=INTEGER},
+      CONDITION_TYPE = #{conditionType,jdbcType=INTEGER},
+      CONDITION_REQUIRED = #{conditionRequired,jdbcType=INTEGER},
+      ORDER_TYPE = #{orderType,jdbcType=INTEGER},
+      SORT_NUM = #{sortNum,jdbcType=INTEGER},
+      NOTE = #{note,jdbcType=VARCHAR},
+      MEMO1 = #{memo1,jdbcType=VARCHAR},
+      MEMO2 = #{memo2,jdbcType=VARCHAR},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where COLUMN_ID = #{columnId,jdbcType=VARCHAR}
+  </update>
+
+  <!-- 数据列批量插入 -->
+  <insert id="batchSave" parameterType="java.util.List">
+    INSERT INTO DSM_QUERY_VIEW_COLUMN (COLUMN_ID, VIEW_ID, COLUMN_NAME,
+    COLUMN_COMMENT, DATA_TYPE, DATA_FORMAT,
+    DISPLAY_FORMAT, DICTIONARY_ID, IS_RESULT,
+    IS_QUERY, CONDITION_TYPE, CONDITION_REQUIRED,
+    ORDER_TYPE, SORT_NUM, NOTE,
+    MEMO1, MEMO2, UPDATE_USER,
+    UPDATE_TIME)
+    VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.columnId,jdbcType=VARCHAR}, #{item.viewId,jdbcType=VARCHAR}, #{item.columnName,jdbcType=VARCHAR},
+      #{item.columnComment,jdbcType=VARCHAR}, #{item.dataType,jdbcType=VARCHAR}, #{item.dataFormat,jdbcType=VARCHAR},
+      #{item.displayFormat,jdbcType=VARCHAR}, #{item.dictionaryId,jdbcType=VARCHAR}, #{item.isResult,jdbcType=INTEGER},
+      #{item.isQuery,jdbcType=INTEGER}, #{item.conditionType,jdbcType=INTEGER}, #{item.conditionRequired,jdbcType=INTEGER},
+      #{item.orderType,jdbcType=INTEGER}, #{item.sortNum,jdbcType=INTEGER}, #{item.note,jdbcType=VARCHAR},
+      #{item.memo1,jdbcType=VARCHAR}, #{item.memo2,jdbcType=VARCHAR}, #{item.updateUser,jdbcType=VARCHAR},
+      #{item.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+
+  <select id="listByViewId" parameterType="com.heb.guitar.entity.DsmQueryViewColumn" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from DSM_QUERY_VIEW_COLUMN
+    where VIEW_ID = #{viewId,jdbcType=VARCHAR}
+    ORDER BY SORT_NUM
+  </select>
+
+  <!-- 批量删除列信息 -->
+  <delete id="batchDeleteViewColumns" parameterType="java.util.List">
+    delete from DSM_QUERY_VIEW_COLUMN where COLUMN_ID in
+    <foreach item="item" collection="list" open="(" separator="," close=")">
+      #{item.columnId,jdbcType=VARCHAR}
+    </foreach>
+  </delete>
+</mapper>
