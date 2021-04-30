@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heb.guitar.mapper.DsmQueryViewMapper">
+  <resultMap id="BaseResultMap" type="com.heb.guitar.entity.DsmQueryView">
+    <id column="VIEW_ID" jdbcType="VARCHAR" property="viewId" />
+    <result column="VIEW_NAME" jdbcType="VARCHAR" property="viewName" />
+    <result column="DATASOURCE_ID" jdbcType="VARCHAR" property="datasourceId" />
+    <result column="DATASET_ID" jdbcType="VARCHAR" property="datasetId" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="QUERY_SQL" jdbcType="VARCHAR" property="querySql" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    VIEW_ID, VIEW_NAME, DATASOURCE_ID, DATASET_ID, STATUS, QUERY_SQL, NOTE, UPDATE_USER, 
+    UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DSM_QUERY_VIEW
+    where VIEW_ID = #{viewId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from DSM_QUERY_VIEW
+    where VIEW_ID = #{viewId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.heb.guitar.entity.DsmQueryView">
+    insert into DSM_QUERY_VIEW (VIEW_ID, VIEW_NAME, DATASOURCE_ID, 
+      DATASET_ID, STATUS, QUERY_SQL, 
+      NOTE, UPDATE_USER, UPDATE_TIME
+      )
+    values (#{viewId,jdbcType=VARCHAR}, #{viewName,jdbcType=VARCHAR}, #{datasourceId,jdbcType=VARCHAR}, 
+      #{datasetId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{querySql,jdbcType=VARCHAR}, 
+      #{note,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.heb.guitar.entity.DsmQueryView">
+    insert into DSM_QUERY_VIEW
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="viewId != null">
+        VIEW_ID,
+      </if>
+      <if test="viewName != null">
+        VIEW_NAME,
+      </if>
+      <if test="datasourceId != null">
+        DATASOURCE_ID,
+      </if>
+      <if test="datasetId != null">
+        DATASET_ID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="querySql != null">
+        QUERY_SQL,
+      </if>
+      <if test="note != null">
+        NOTE,
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="viewId != null">
+        #{viewId,jdbcType=VARCHAR},
+      </if>
+      <if test="viewName != null">
+        #{viewName,jdbcType=VARCHAR},
+      </if>
+      <if test="datasourceId != null">
+        #{datasourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetId != null">
+        #{datasetId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="querySql != null">
+        #{querySql,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.heb.guitar.entity.DsmQueryView">
+    update DSM_QUERY_VIEW
+    <set>
+      <if test="viewName != null">
+        VIEW_NAME = #{viewName,jdbcType=VARCHAR},
+      </if>
+      <if test="datasourceId != null">
+        DATASOURCE_ID = #{datasourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="datasetId != null">
+        DATASET_ID = #{datasetId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="querySql != null">
+        QUERY_SQL = #{querySql,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where VIEW_ID = #{viewId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.heb.guitar.entity.DsmQueryView">
+    update DSM_QUERY_VIEW
+    set VIEW_NAME = #{viewName,jdbcType=VARCHAR},
+      DATASOURCE_ID = #{datasourceId,jdbcType=VARCHAR},
+      DATASET_ID = #{datasetId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=INTEGER},
+      QUERY_SQL = #{querySql,jdbcType=VARCHAR},
+      NOTE = #{note,jdbcType=VARCHAR},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where VIEW_ID = #{viewId,jdbcType=VARCHAR}
+  </update>
+
+  <!-- @Description: 获取所有服务接口-->
+  <select id="selectAll" resultType="com.heb.guitar.vo.profession.resp.QueryViewRespVO"
+          parameterType="com.heb.guitar.vo.profession.req.QueryViewReqVO">
+    select  A.VIEW_ID viewId,
+            A.VIEW_NAME viewName,
+            A.DATASOURCE_ID datasourceId,
+            A.DATASET_ID datasetId,
+            A.STATUS status,
+            A.QUERY_SQL querySql,
+            A.NOTE note,
+            A.UPDATE_USER updateUser,
+            A.UPDATE_TIME updateTime,
+            B.DATASET_NAME datasetName,
+            C.DATASOURCE_NAME datasourceName
+    from DSM_QUERY_VIEW A LEFT JOIN DSM_DATASET B ON A.DATASET_ID = B.DATASET_ID
+                          LEFT JOIN DSM_DATASOURCE C ON A.DATASOURCE_ID = C.DATASOURCE_ID
+    <where>
+      1=1
+      <if test="viewName!=null and viewName!=''">
+        AND A.VIEW_NAME LIKE concat('%',#{viewName},'%')
+      </if>
+    </where>
+    limit ((${pageNum}-1)*${pageSize}),${pageSize}
+  </select>
+
+  <!-- @Description: 获取所有的服务的总数-->
+  <select id="queryViewCount" resultType="long" parameterType="com.heb.guitar.vo.profession.req.QueryViewReqVO">
+    select count(*) as num
+    from DSM_QUERY_VIEW
+    <where>
+      1=1
+      <if test="viewName!=null and viewName!=''">
+        AND VIEW_NAME LIKE concat('%',#{viewName},'%')
+      </if>
+    </where>
+  </select>
+</mapper>

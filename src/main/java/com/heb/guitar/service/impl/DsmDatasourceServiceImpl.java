@@ -145,4 +145,10 @@ public class DsmDatasourceServiceImpl implements DsmDatasourceService {
         }
     }
 
+    @Override
+    public List<DsmDatasource> datasourceSelect(DsmDatasource dsmDatasource) {
+        return dsmDatasourceMapper.datasourceSelect(dsmDatasource);
+    }
+
+
 }

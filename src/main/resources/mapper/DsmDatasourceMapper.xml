@@ -385,7 +385,7 @@
     where DATASOURCE_ID = #{datasourceId,jdbcType=VARCHAR}
   </update>
 
-  <!-- @Description: 获取所有数据源类型-->
+  <!-- @Description: 获取所有数据源-->
   <select id="selectAll" resultMap="BaseResultMap"
           parameterType="com.heb.guitar.vo.profession.req.DataSourceReqVO">
     select <include refid="Base_Column_List"></include>
@@ -402,7 +402,7 @@
     limit ((${pageNum}-1)*${pageSize}),${pageSize}
   </select>
 
-  <!-- @Description: 获取所有的数据源类型的总数-->
+  <!-- @Description: 获取所有的数据源的总数-->
   <select id="datasourceCount" resultType="long" parameterType="com.heb.guitar.vo.profession.req.DataSourceReqVO">
     select count(*) as num
     from DSM_DATASOURCE
@@ -417,6 +417,18 @@
     </where>
   </select>
 
+  <!-- @Description: 获取所有数据源提供SELECT下拉框所用-->
+  <select id="datasourceSelect" resultMap="BaseResultMap"
+          parameterType="java.lang.String">
+    select <include refid="Base_Column_List"></include>
+    from DSM_DATASOURCE
+    <where>
+      1=1
+      <if test="datasourceName!=null and datasourceName!=''">
+        AND DATASOURCE_NAME LIKE concat('%',#{datasourceName},'%')
+      </if>
+    </where>
+  </select>
 
 
 </mapper>

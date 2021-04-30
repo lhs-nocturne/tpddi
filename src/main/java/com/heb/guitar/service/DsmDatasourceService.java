@@ -5,9 +5,8 @@ import com.heb.guitar.entity.DsmDatasource;
 import com.heb.guitar.vo.profession.req.DataSourceReqVO;
 import com.heb.guitar.vo.profession.req.DatasetSourceReqVO;
 import com.heb.guitar.vo.profession.resp.DataSourceRespVO;
-
 import java.util.List;
-import java.util.Map;
+
 
 public interface DsmDatasourceService {
 
@@ -24,5 +23,7 @@ public interface DsmDatasourceService {
     boolean testConnect(DsmDatasource dsmDatasource);
 
     List<DsmDataset> datasetSource(DatasetSourceReqVO datasetSourceReqVO);
+
+    List<DsmDatasource> datasourceSelect(DsmDatasource dsmDatasource);
 
 }

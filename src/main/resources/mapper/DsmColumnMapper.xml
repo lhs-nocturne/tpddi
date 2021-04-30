@@ -339,4 +339,52 @@
     where COLUMN_ID = #{columnId,jdbcType=VARCHAR}
   </update>
 
+  <select id="selectByDatasetId" parameterType="com.heb.guitar.entity.DsmColumn" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from DSM_COLUMN
+    where DATASET_ID = #{datasetId,jdbcType=VARCHAR}
+    <if test="columnName!=null and columnName!=''">
+      AND COLUMN_NAME LIKE concat('%',#{columnName,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
+
+  <!-- 数据列批量插入 -->
+  <insert id="batchSave" parameterType="java.util.List">
+    INSERT INTO DSM_COLUMN (COLUMN_ID, NODE_CODE, DICTIONARY_ID,
+    DATASET_ID, COLUMN_NAME, COLUMN_COMMENT,
+    COLUMN_LABEL, DATA_TYPE, LENGTH,
+    SCALE, DEFAULT_VALUE, DATA_FORMAT,
+    DISPLAY_FORMAT, IS_NULLABLE, IS_PK,
+    IS_QUERY, COMPARE_TYPE, ORDER_TYPE,
+    SECURITY_LEVEL, SORT_NUM, NOTE,
+    MEMO1, MEMO2, UPDATE_USER,
+    UPDATE_TIME, KEYBOARD_TYPE)
+    VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.columnId,jdbcType=VARCHAR}, #{item.nodeCode,jdbcType=VARCHAR}, #{item.dictionaryId,jdbcType=VARCHAR},
+      #{item.datasetId,jdbcType=VARCHAR}, #{item.columnName,jdbcType=VARCHAR}, #{item.columnComment,jdbcType=VARCHAR},
+      #{item.columnLabel,jdbcType=VARCHAR}, #{item.dataType,jdbcType=VARCHAR}, #{item.length,jdbcType=INTEGER},
+      #{item.scale,jdbcType=INTEGER}, #{item.defaultValue,jdbcType=VARCHAR}, #{item.dataFormat,jdbcType=VARCHAR},
+      #{item.displayFormat,jdbcType=VARCHAR}, #{item.isNullable,jdbcType=VARCHAR}, #{item.isPk,jdbcType=INTEGER},
+      #{item.isQuery,jdbcType=INTEGER}, #{item.compareType,jdbcType=INTEGER}, #{item.orderType,jdbcType=INTEGER},
+      #{item.securityLevel,jdbcType=INTEGER}, #{item.sortNum,jdbcType=INTEGER}, #{item.note,jdbcType=VARCHAR},
+      #{item.memo1,jdbcType=VARCHAR}, #{item.memo2,jdbcType=VARCHAR}, #{item.updateUser,jdbcType=VARCHAR},
+      #{item.updateTime,jdbcType=TIMESTAMP}, #{item.keyboardType,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+
+  <delete id="deleteByDatasetId" parameterType="java.lang.String">
+    delete from DSM_COLUMN
+    where DATASET_ID = #{datasetId,jdbcType=VARCHAR}
+  </delete>
+
+  <!-- 批量删除列信息 -->
+  <delete id="batchDeleteColumns" parameterType="java.util.List">
+    delete from DSM_COLUMN where COLUMN_ID in
+    <foreach item="item" collection="list" open="(" separator="," close=")">
+      #{item.columnId,jdbcType=VARCHAR}
+    </foreach>
+  </delete>
+
 </mapper>

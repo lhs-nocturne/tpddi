@@ -4,6 +4,7 @@ import com.heb.guitar.entity.DsmDatasource;
 import com.heb.guitar.vo.profession.req.DataSourceReqVO;
 import com.heb.guitar.vo.profession.resp.DataSourceRespVO;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 public interface DsmDatasourceMapper {
@@ -22,5 +23,7 @@ public interface DsmDatasourceMapper {
     List<DataSourceRespVO> selectAll(DataSourceReqVO vo);
 
     long datasourceCount(DataSourceReqVO vo);
+
+    List<DsmDatasource> datasourceSelect(DsmDatasource dsmDatasource);
 
 }

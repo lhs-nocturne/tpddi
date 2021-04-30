@@ -486,8 +486,8 @@
                             {type: 'numbers', title: '序号'},
                             {field: 'datasourceId', title: 'datasourceId', hide: true},
                             {field: 'schemaName', title: 'schemaName', hide: true},
-                            {field: 'datasetName', title: '对象名称', minWidth: 300},
-                            {field: 'datasetType', title: '类型', width: 100},
+                            {field: 'datasetName', title: '对象名称', minWidth: 280},
+                            {field: 'datasetType', title: '类型', minWidth: 100},
                             {field: 'datasetComment', title: '注释', width: 200},
                         ]
                     ]
@@ -535,7 +535,7 @@
                             {type: 'numbers', title: '序号'},
                             {field: 'datasourceId', title: 'datasourceId', hide: true},
                             {field: 'schemaName', title: 'schemaName', hide: true},
-                            {field: 'datasetName', title: '对象名称', minWidth: 300},
+                            {field: 'datasetName', title: '对象名称', minWidth: 280},
                             {field: 'datasetType', title: '类型', minWidth: 100},
                             {field: 'datasetComment', title: '注释', width: 200},
                         ]
@@ -554,7 +554,6 @@
                 let noAuthorityData=[];
                 loadTargetTable(noAuthorityData);
             });
-
         };
 
         // 监听搜索源数据集对象操作
@@ -582,6 +581,8 @@
                 loadTable(noAuthorityData);
             });
         });
+
+
 
     });
 </script>

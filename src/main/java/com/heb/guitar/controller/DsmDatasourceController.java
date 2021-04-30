@@ -78,5 +78,11 @@ public class DsmDatasourceController {
         return result;
     }
 
+    @PostMapping("/datasourceSelect")
+    public DataResult datasourceSelect(@RequestBody DsmDatasource dsmDatasource){
+        List<DsmDatasource> list= dsmDatasourceService.datasourceSelect(dsmDatasource);
+        DataResult result= DataResult.getResult(list);
+        return result;
+    }
 
 }

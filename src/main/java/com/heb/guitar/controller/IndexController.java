@@ -106,4 +106,10 @@ public class IndexController {
     public String datasetList(){
         return "page/data/dataset";
     }
+
+    @GetMapping("/registerService")
+    @ApiOperation(value = "跳转数据集管理")
+    public String registerService(){
+        return "page/data/register_service";
+    }
 }
