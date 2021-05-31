@@ -6,6 +6,7 @@ import com.heb.guitar.service.DsmQueryViewColumnService;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class DsmQueryViewColumnServiceImpl implements DsmQueryViewColumnService {
@@ -26,6 +27,17 @@ public class DsmQueryViewColumnServiceImpl implements DsmQueryViewColumnService 
     @Override
     public int batchDeleteViewColumns(List<DsmQueryViewColumn> list) {
         return dsmQueryViewColumnMapper.batchDeleteViewColumns(list);
+    }
+
+    @Override
+    public int update(DsmQueryViewColumn dsmQueryViewColumn) {
+        return dsmQueryViewColumnMapper.updateByPrimaryKeySelective(dsmQueryViewColumn);
+    }
+
+    @Override
+    public int insert(DsmQueryViewColumn dsmQueryViewColumn) {
+        dsmQueryViewColumn.setColumnId(UUID.randomUUID().toString());
+        return dsmQueryViewColumnMapper.insertSelective(dsmQueryViewColumn);
     }
 
 }

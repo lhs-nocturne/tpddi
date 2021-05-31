@@ -49,5 +49,11 @@ public class Constant {
     /*** 标记用户是否已经被锁定*/
     public static final String ACCOUNT_LOCK_KEY="account-lock-key_";
 
+    /*** 标记用户拥有的视图*/
+    public static final String USER_VIEW_KEY="user-view-key_";
+
+    /*** 标记用户拥有的视图*/
+    public static final String VIEW_DETAIL = "view_detail_";
+
 
 }

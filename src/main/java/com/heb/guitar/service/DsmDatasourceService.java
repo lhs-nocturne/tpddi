@@ -26,4 +26,6 @@ public interface DsmDatasourceService {
 
     List<DsmDatasource> datasourceSelect(DsmDatasource dsmDatasource);
 
+    DsmDatasource selectByPrimaryKey(String datasourceId);
+
 }

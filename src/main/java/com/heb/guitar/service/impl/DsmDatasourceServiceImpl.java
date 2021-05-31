@@ -150,5 +150,10 @@ public class DsmDatasourceServiceImpl implements DsmDatasourceService {
         return dsmDatasourceMapper.datasourceSelect(dsmDatasource);
     }
 
+    @Override
+    public DsmDatasource selectByPrimaryKey(String datasourceId) {
+        return dsmDatasourceMapper.selectByPrimaryKey(datasourceId);
+    }
+
 
 }

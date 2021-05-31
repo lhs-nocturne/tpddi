@@ -112,4 +112,11 @@ public class IndexController {
     public String registerService(){
         return "page/data/register_service";
     }
+
+    @GetMapping("/tableEdit")
+    @ApiOperation(value = "tableEdit")
+    public String tableEdit(){
+        return "page/data/tableEdit";
+    }
+
 }

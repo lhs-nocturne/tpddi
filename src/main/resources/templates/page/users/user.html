@@ -67,7 +67,8 @@
 
 <script type="text/html" id="tool">
         <button class="layui-btn layui-btn-primary layui-btn-xs data-add-btn" lay-event="edit" shiro:hasPermission="sys:user:update"> 编辑 </button>
-        <button class="layui-btn layui-btn-warm layui-btn-xs data-add-btn" lay-event="grant" shiro:hasPermission="sys:user:role:update"> 授权 </button>
+        <button class="layui-btn layui-btn-warm layui-btn-xs data-add-btn" lay-event="grant" shiro:hasPermission="sys:user:role:update"> 授权角色 </button>
+        <button class="layui-btn layui-btn-xs data-add-btn" lay-event="grant_view"> 授权视图 </button>
         <button class="layui-btn layui-btn-xs layui-btn-danger data-delete-btn" lay-event="del" shiro:hasPermission="sys:user:delete"> 删除 </button>
 </script>
 
@@ -256,7 +257,7 @@
                                 return CoreUtil.formattime(item.updateTime);
                             }
                         },
-                        {title:'操作', width:200, toolbar:'#tool', align: 'center'}
+                        {title:'操作', width:400, toolbar:'#tool', align: 'center'}
                     ]
                 ]
                 ,data: data
@@ -437,9 +438,15 @@
             if (obj.event === 'grant') {
                 grant(data);
             }
+
+            if (obj.event === 'grant_view'){
+                grant_views(data);
+            }
+
             if (obj.event === 'edit') {
                 openWindow(data,'edit');
             }
+
             if (obj.event === 'del') {
                 layer.confirm('确定要删除【'+data.username+'】吗？', {
                     btn: ['确定','取消'], //按钮
@@ -461,6 +468,7 @@
 
         var grant = function (data) {
             CoreUtil.sendAjax("/api/user/roles/"+data.id,null,function (res) {
+                console.log(res.data);
                 layer.open({
                     type: 1,
                     offset: '50px',
@@ -517,6 +525,63 @@
             },"GET",false);
         }
 
+        var grant_views = function (data) {
+            CoreUtil.sendAjax("/api/user/views/"+data.id,null,function (res) {
+                layer.open({
+                    type: 1,
+                    offset: '50px',
+                    title: "为账号【"+data.username+"】授权视图",
+                    area: ['710px', '540px'],
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: false,
+                    content: '<div id="transfer_view" style="padding: 10px;align:center"></div>',
+                    btn: ['确定', '取消'],
+                    yes: function (index) {
+                        //获得右侧数据
+                        let viewIds = [];
+                        let getData = transfer.getData('ownViewData');
+                        //layer.msg(JSON.stringify(getData));
+                        if(getData.length!=0){
+                            $(getData).each(function (index,item) {
+                                viewIds.push(item.value);
+                            });
+                        }
+                        let param={
+                            userId:data.id,
+                            viewIds:viewIds
+                        }
+                        CoreUtil.sendAjax("/api/user/views",JSON.stringify(param),function (res) {
+                            layer.msg(res.msg);
+                            $(".layui-laypage-btn").click();
+                        },"PUT",false, function (res) {
+                            //赋予用户角色无权限提示
+                            layer.msg("抱歉！您暂无赋予用户视图的权限");
+                        });
+                        layer.close(index);
+                    },
+                    success: function () {
+                        //实例调用
+                        transfer.render({
+                            elem: '#transfer_view',
+                            title:['未授权视图','已授权视图'],
+                            data: res.data.allViews,
+                            value: res.data.ownViews,
+                            id: 'ownViewData', //定义唯一索引
+                            showSearch: true,
+                            width: 300,
+                            height: 400,
+                            parseData: function(res){
+                                return {
+                                    "value": res.viewId //数据值
+                                    ,"title": res.viewName //数据标题
+                                }
+                            }
+                        })
+                    }
+                });
+            },"GET",false);
+        }
 
     });
 </script>

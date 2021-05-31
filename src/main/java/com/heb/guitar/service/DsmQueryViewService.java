@@ -16,4 +16,6 @@ public interface DsmQueryViewService {
     int updateByPrimaryKeySelective(DsmQueryView record);
 
     int deleteByPrimaryKey(String viewId);
+
+    int makeSql(DsmQueryView record);
 }

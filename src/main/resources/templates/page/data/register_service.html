@@ -51,13 +51,14 @@
 <script type="text/html" id="tool">
     <button class="layui-btn layui-btn-primary layui-btn-xs data-add-btn" lay-event="edit"> 编辑 </button>
     <button class="layui-btn layui-btn-xs data-add-btn" lay-event="syncColumn"> 数据列 </button>
+    <button class="layui-btn layui-btn-xs layui-btn-warm data-delete-btn" lay-event="sql"> 刷新 </button>
     <button class="layui-btn layui-btn-xs layui-btn-danger data-delete-btn" lay-event="del"> 删除 </button>
 </script>
 
 <!---================新增WIN表单开始======================-->
 <script type="text/html" id="addWin">
     <div class="panel panel-default operation_query_view">
-        <div class="layui-form layuimini-form" style="margin: 30px">
+        <div class="layui-form layuimini-form" style="margin: 30px 100px 30px 30px">
             <input type="text" name="viewId" hidden>
             <div class="layui-form-item">
                 <label class="layui-form-label required">服务名称</label>
@@ -135,9 +136,76 @@
 
 <script type="text/html" id="columnToolbar">
     <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="syncColumns">
-        <i class="fa fa-exchange" aria-hidden="true"></i>&nbsp;&nbsp;同步数据列</button>
+        <i class="layui-icon">&#xe654;</i>&nbsp;新增数据列</button>
     <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="deleteColumns">
         <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp;删除数据列</button>
+    <!--<button class="layui-btn layui-btn-sm" lay-event="syncColumns">
+        <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;保存</button>-->
+</script>
+
+<script type="text/html" id="columnTool">
+    <button class="layui-btn layui-btn-primary layui-btn-xs data-add-btn" lay-event="editColumn"> 编辑 </button>
+    <button class="layui-btn layui-btn-xs layui-btn-danger data-delete-btn" lay-event="delColumn"> 删除 </button>
+</script>
+
+<script type="text/html" id="addColumnWin">
+    <div class="panel panel-default operation_query_view_column">
+        <form class="layui-form layuimini-form" style="margin: 30px 100px 30px 30px" id="columnForm">
+            <input type="text" name="columnId" hidden>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">数据列名称</label>
+                <div class="layui-input-block">
+                    <input type="columnName" name="columnName" lay-verify="required" placeholder="请输入数据列名称" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">数据类型</label>
+                <div class="layui-input-block">
+                    <input type="dataType" name="dataType" lay-verify="required" placeholder="请输入数据类型" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">注释</label>
+                <div class="layui-input-block">
+                    <input type="columnComment" name="columnComment" lay-verify="required" placeholder="请输入注释" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否返回值</label>
+                <div class="layui-input-block">
+                    <select name="isResult" lay-filter="isResult" lay-reqtext="是否返回值不能为空" lay-verify="required">
+                        <option value="1">是</option>
+                        <option value="0">否</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否查询条件</label>
+                <div class="layui-input-block">
+                    <select name="isQuery" lay-filter="isQuery" lay-reqtext="是否查询条件不能为空" lay-verify="required">
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">查询类型</label>
+                <div class="layui-input-block">
+                    <select name="conditionType" lay-filter="conditionType"  lay-verify="required">
+                        <option value="" selected=""></option>
+                        <option value="equal">等于</option>
+                        <option value="like">模糊</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">排序</label>
+                <div class="layui-input-block">
+                    <input type="number" name="sortNum" placeholder="请输入排序数值" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+        </form>
+    </div>
 </script>
 
 <script src="/lib/layui/layui.js" charset="utf-8"></script>
@@ -242,7 +310,7 @@
                         {field: 'datasetName', title: '数据集', width: 300},
                         {field: 'datasourceId', title: '数据源ID', hide: true},
                         {field: 'datasourceName', title: '数据源', width: 300},
-                        {title:'操作',toolbar:'#tool', align: 'center' ,width: 300}
+                        {title:'操作',toolbar:'#tool', align: 'center' ,width: 500}
                     ]
                 ]
                 ,data: data
@@ -340,6 +408,10 @@
                 openWindow(data,'edit');
             }
             if(obj.event === 'del'){
+                if(data.status === 1){
+                    layer.msg('【启用】状态下无法删除');
+                    return false;
+                }
                 layer.confirm('确定要删除选中信息吗？', {
                     btn: ['确定','取消'], //按钮
                     title: '提示'
@@ -358,6 +430,25 @@
             }
             if(obj.event === 'syncColumn'){
                 openColumnWin(data);
+            }
+            if(obj.event === 'sql'){
+                layer.confirm('确定要刷新SQL吗？', {
+                    btn: ['确定','取消'], //按钮
+                    title: '提示'
+                }, function(index){
+                    CoreUtil.sendAjax("/api/makeSql",JSON.stringify(data),function (res) {
+                        if(res.code === 0){
+                            layer.closeAll();
+                            initTable();
+                        }
+                        layer.msg(res.msg);
+                    },"POST",false, function (res) {
+                        //新增用户无权限提示
+                        layer.msg("抱歉！您暂无权限");
+                    });
+                }, function(index){
+                    layer.close(index);
+                });
             }
         });
 
@@ -401,7 +492,6 @@
         //渲染ColumnTable
         var loadColumnTable = function (data) {
             data.columnName = $("#columnName").val();
-            console.log(data)
             /*动态获取select数据*/
             CoreUtil.sendAjax("/api/queryViewsColumns",JSON.stringify(data),function (res) {
                 /*初始化表格*/
@@ -415,11 +505,34 @@
                             {field: 'columnId', title: 'datasourceId', hide: true},
                             {field: 'columnName', title: '数据列名称', width: 400},
                             {field: 'dataType', title: '数据类型', width: 180},
-                            {field: 'columnComment', title: '注释', width: 200},
-                            {field: 'isResult', title: '是否返回值', width: 120},
-                            {field: 'isQuery', title: '是否查询条件', width: 120},
-                            {field: 'conditionType', title: '查询类型', width: 120},
+                            {field: 'columnComment', title: '注释', width: 300},
+                            {field: 'isResult', title: '是否返回值', width: 120,templet: function (item) {
+                                    if(item.isResult === 1){
+                                        return  '<span style="color: green">是</span>';
+                                    }else{
+                                        return  '<span style="color: red">否</span>';
+                                    }
+                                }
+                             },
+                            {field: 'isQuery', title: '是否查询条件', width: 120, templet: function (item) {
+                                    if(item.isQuery === 1){
+                                        return  '<span style="color: green">是</span>';
+                                    }else{
+                                        return  '<span style="color: red">否</span>';
+                                    }
+                                }
+                             },
+                            {field: 'conditionType', title: '查询类型', width: 120, templet: function (item) {
+                                    if(item.conditionType === 'like'){
+                                        return  '模糊';
+                                    }else if(item.conditionType === 'equal'){
+                                        return  '等于';
+                                    }else {
+                                        return  '';
+                                    }
+                                }},
                             {field: 'sortNum', title: '排序', width: 80},
+                            {title:'操作',toolbar:'#columnTool', align: 'center' ,width: 300}
                         ]
                     ]
                     ,toolbar: '#columnToolbar'
@@ -429,7 +542,7 @@
                     ,limit: 10
                     ,limits: [10, 20, 30, 40, 50]
                     //,size: 'sm' //小尺寸的表格
-                });
+                }).config.cols;
             },"POST",false, function (res) {
                 //无权限访问列表提示
                 layer.msg("抱歉！您暂无获取信息的权限");
@@ -438,21 +551,121 @@
             });
         };
 
-        //新增菜单权限事件
+        let addColumnWin = function (data,type) {
+            layer.open({
+                title: type === 'add' ? '新增数据列' : '编辑数据列',
+                type: 1,
+                shade: 0.2,
+                maxmin:true,
+                shadeClose: true,
+                area: ['45%', '600px'],
+                content: $("#addColumnWin").html(),
+                zIndex: layer.zIndex, //重点1
+                btn: ['保存', '关闭'], //只是为了演示
+                yes: function(index){
+                    let formData = $("#columnForm").serializeArray();
+                    let record = {};
+                    $.each(formData, function() {
+                        record[this.name] = this.value;
+                    });
+                    //新增
+                    if(type === 'add'){
+                        record['viewId'] = dataColumn.viewId;
+                        CoreUtil.sendAjax("/api/queryViewsColumn",JSON.stringify(record),function (res) {
+                            if(res.code === 0){
+                                layer.close(index);
+                                loadColumnTable(dataColumn);
+                            }
+                            layer.msg(res.msg);
+                        },"POST",false, function (res) {
+                            //新增用户无权限提示
+                            layer.msg("抱歉！您暂无新增的权限");
+                        });
+                    }else {
+                        CoreUtil.sendAjax("/api/queryViewsColumn",JSON.stringify(record),function (res) {
+                            if(res.code === 0){
+                                layer.close(index);
+                                loadColumnTable(dataColumn);
+                            }
+                            layer.msg(res.msg);
+                        },"PUT",false, function (res) {
+                            //无权限更新角色提示
+                            layer.msg("抱歉！您暂无更新的权限");
+                        });
+                    }
+                },
+                btn2: function(index){
+                    layer.close(index);
+                },
+                success: function (layero) {
+                    if(type==='edit'){
+                        $(".operation_query_view_column input[name=columnId]").val(data.columnId);
+                        $(".operation_query_view_column input[name=columnName]").val(data.columnName);
+                        $(".operation_query_view_column input[name=dataType]").val(data.dataType);
+                        $(".operation_query_view_column input[name=columnComment]").val(data.columnComment);
+                        $(".operation_query_view_column select[name=isResult]").val(data.isResult);
+                        $(".operation_query_view_column select[name=isQuery]").val(data.isQuery);
+                        $(".operation_query_view_column select[name=conditionType]").val(data.conditionType);
+                        $(".operation_query_view_column input[name=sortNum]").val(data.sortNum);
+                    }else {
+                        $(".operation_query_view input[name=columnId]").val('');
+                    }
+                    form.render();
+                    layer.setTop(layero); //重点2
+                }
+            });
+        }
+
+        // 监听搜索操作
+        form.on('select(isQuery)', function (data) {
+            if(data.value === '0'){
+                $(".operation_query_view_column select[name=conditionType]").val('');
+            }
+            if(data.value === '1'){
+                $(".operation_query_view_column select[name=conditionType]").val('equal');
+            }
+            form.render();
+        });
+
+        //数据列操作
+        table.on('tool(dataColumn_table)',function (obj) {
+            if(obj.event === 'editColumn'){
+                addColumnWin(obj.data,'edit');
+            }
+            if(obj.event === 'delColumn'){
+                layer.confirm('确定要删除选中信息吗？', {
+                    btn: ['确定','取消'], //按钮
+                    title: '提示'
+                }, function(index){
+                    let params = [];
+                    params.push(obj.data);
+                    CoreUtil.sendAjax("/api/batchDeleteViewColumns",JSON.stringify(params),function (res) {
+                        layer.close(index); //如果设定了yes回调，需进行手工关闭
+                        loadColumnTable(dataColumn);
+                        layer.msg(res.msg);
+                    },"POST",true, function (res) {
+                        //无权限删除操作日志提示
+                        layer.msg("抱歉！您暂无删除操作的权限");
+                    });
+                }, function(index){
+                    layer.close(index);
+                });
+            }
+
+        });
+
+
+        //新增数据列
         table.on('toolbar(dataColumn_table)',function (obj) {
             if(obj.event === 'syncColumns'){
-                CoreUtil.sendAjax("/api/syncColumns",JSON.stringify(dataColumn),function (res) {
-                    loadColumnTable(dataColumn);
-                },"POST",false, function (res) {
-                    //无权限访问操作日志列表提示
-                    layer.msg("抱歉！您暂无权限");
-                    let noAuthorityData=[];
-                    loadTable(noAuthorityData);
-                });
-                return false;
+                addColumnWin(obj.data,'add');
             }
             if(obj.event === 'deleteColumns'){
-                var checkDatas = table.checkStatus('dataColumn_table').data;
+                let checkDatas = table.checkStatus('dataColumn_table').data;
+                if(checkDatas.length<1){
+                    layer.msg('请至少选择一条数据');
+                    return false;
+                }
                 layer.confirm('确定要删除选中信息吗？', {
                     btn: ['确定','取消'], //按钮
                     title: '提示'

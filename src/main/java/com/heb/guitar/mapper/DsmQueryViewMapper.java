@@ -21,4 +21,6 @@ public interface DsmQueryViewMapper {
     List<QueryViewRespVO> selectAll(QueryViewReqVO queryViewReqVO);
 
     long queryViewCount(QueryViewReqVO queryViewReqVO);
+
+    List<DsmQueryView> selectAllViews();
 }

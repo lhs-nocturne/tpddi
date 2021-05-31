@@ -4,6 +4,9 @@ import com.heb.guitar.entity.SysUser;
 import com.heb.guitar.vo.req.*;
 import com.heb.guitar.vo.resp.LoginRespVO;
 import com.heb.guitar.vo.resp.UserOwnRoleRespVO;
+import com.heb.guitar.vo.resp.UserOwnViewRespVO;
+import com.heb.guitar.vo.resp.UserViewOperationReqVO;
+
 import java.util.List;
 
 /**
@@ -42,6 +45,11 @@ public interface UserService {
     void userUpdateDetailInfo(UserUpdateDetailInfoReqVO vo,String userId);
 
     void updatePwd(UpdatePasswordReqVO vo,String userId,String accessToken, String refreshToken);
+
+    //根据用户id获取用户拥有视图
+    UserOwnViewRespVO getUserOwnViews(String userId);
+
+
 
 
 }

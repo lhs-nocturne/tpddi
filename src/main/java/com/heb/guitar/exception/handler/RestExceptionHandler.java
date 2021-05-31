@@ -5,6 +5,9 @@ import com.heb.guitar.exception.code.BaseResponseCode;
 import com.heb.guitar.utils.DataResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -64,6 +67,24 @@ public class RestExceptionHandler {
     public DataResult unauthorizedException(UnauthorizedException e){
         log.error("UnauthorizedException:{}",e);
         return DataResult.getResult(BaseResponseCode.NOT_PERMISSION);
+    }
+
+    @ExceptionHandler(InvalidDataAccessApiUsageException.class)
+    public DataResult invalidDataAccessApiUsageException(InvalidDataAccessApiUsageException e){
+        log.error("invalidDataAccessApiUsageException:{}",e);
+        return DataResult.getResult(BaseResponseCode.NOT_MATCH_COLUMN);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public DataResult httpMessageNotReadableException(HttpMessageNotReadableException e){
+        log.error("httpMessageNotReadableException:{}",e);
+        return DataResult.getResult(BaseResponseCode.NO_PARSE_JSON);
+    }
+
+    @ExceptionHandler(CannotGetJdbcConnectionException.class)
+    public DataResult cannotGetJdbcConnectionException(CannotGetJdbcConnectionException e){
+        log.error("httpMessageNotReadableException:{}",e);
+        return DataResult.getResult(BaseResponseCode.CONNECT_ERROR);
     }
 
 }

@@ -54,5 +54,10 @@ public class DsmDatasourceTypeServiceImpl implements DsmDatasourceTypeService {
         return dsmDatasourceTypeMapper.selectByPrimaryKey(typeId);
     }
 
+    @Override
+    public DsmDatasourceType selectByPrimaryKey(String typeId) {
+        return dsmDatasourceTypeMapper.selectByPrimaryKey(typeId);
+    }
+
 
 }

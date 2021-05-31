@@ -12,7 +12,7 @@
     <result column="DICTIONARY_ID" jdbcType="VARCHAR" property="dictionaryId" />
     <result column="IS_RESULT" jdbcType="INTEGER" property="isResult" />
     <result column="IS_QUERY" jdbcType="INTEGER" property="isQuery" />
-    <result column="CONDITION_TYPE" jdbcType="INTEGER" property="conditionType" />
+    <result column="CONDITION_TYPE" jdbcType="VARCHAR" property="conditionType" />
     <result column="CONDITION_REQUIRED" jdbcType="INTEGER" property="conditionRequired" />
     <result column="ORDER_TYPE" jdbcType="INTEGER" property="orderType" />
     <result column="SORT_NUM" jdbcType="INTEGER" property="sortNum" />
@@ -48,7 +48,7 @@
     values (#{columnId,jdbcType=VARCHAR}, #{viewId,jdbcType=VARCHAR}, #{columnName,jdbcType=VARCHAR}, 
       #{columnComment,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, #{dataFormat,jdbcType=VARCHAR}, 
       #{displayFormat,jdbcType=VARCHAR}, #{dictionaryId,jdbcType=VARCHAR}, #{isResult,jdbcType=INTEGER}, 
-      #{isQuery,jdbcType=INTEGER}, #{conditionType,jdbcType=INTEGER}, #{conditionRequired,jdbcType=INTEGER}, 
+      #{isQuery,jdbcType=INTEGER}, #{conditionType,jdbcType=VARCHAR}, #{conditionRequired,jdbcType=INTEGER},
       #{orderType,jdbcType=INTEGER}, #{sortNum,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, 
       #{memo1,jdbcType=VARCHAR}, #{memo2,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP})
@@ -146,7 +146,7 @@
         #{isQuery,jdbcType=INTEGER},
       </if>
       <if test="conditionType != null">
-        #{conditionType,jdbcType=INTEGER},
+        #{conditionType,jdbcType=VARCHAR},
       </if>
       <if test="conditionRequired != null">
         #{conditionRequired,jdbcType=INTEGER},
@@ -205,7 +205,7 @@
         IS_QUERY = #{isQuery,jdbcType=INTEGER},
       </if>
       <if test="conditionType != null">
-        CONDITION_TYPE = #{conditionType,jdbcType=INTEGER},
+        CONDITION_TYPE = #{conditionType,jdbcType=VARCHAR},
       </if>
       <if test="conditionRequired != null">
         CONDITION_REQUIRED = #{conditionRequired,jdbcType=INTEGER},
@@ -245,7 +245,7 @@
       DICTIONARY_ID = #{dictionaryId,jdbcType=VARCHAR},
       IS_RESULT = #{isResult,jdbcType=INTEGER},
       IS_QUERY = #{isQuery,jdbcType=INTEGER},
-      CONDITION_TYPE = #{conditionType,jdbcType=INTEGER},
+      CONDITION_TYPE = #{conditionType,jdbcType=VARCHAR},
       CONDITION_REQUIRED = #{conditionRequired,jdbcType=INTEGER},
       ORDER_TYPE = #{orderType,jdbcType=INTEGER},
       SORT_NUM = #{sortNum,jdbcType=INTEGER},
@@ -271,7 +271,7 @@
       (#{item.columnId,jdbcType=VARCHAR}, #{item.viewId,jdbcType=VARCHAR}, #{item.columnName,jdbcType=VARCHAR},
       #{item.columnComment,jdbcType=VARCHAR}, #{item.dataType,jdbcType=VARCHAR}, #{item.dataFormat,jdbcType=VARCHAR},
       #{item.displayFormat,jdbcType=VARCHAR}, #{item.dictionaryId,jdbcType=VARCHAR}, #{item.isResult,jdbcType=INTEGER},
-      #{item.isQuery,jdbcType=INTEGER}, #{item.conditionType,jdbcType=INTEGER}, #{item.conditionRequired,jdbcType=INTEGER},
+      #{item.isQuery,jdbcType=INTEGER}, #{item.conditionType,jdbcType=VARCHAR}, #{item.conditionRequired,jdbcType=INTEGER},
       #{item.orderType,jdbcType=INTEGER}, #{item.sortNum,jdbcType=INTEGER}, #{item.note,jdbcType=VARCHAR},
       #{item.memo1,jdbcType=VARCHAR}, #{item.memo2,jdbcType=VARCHAR}, #{item.updateUser,jdbcType=VARCHAR},
       #{item.updateTime,jdbcType=TIMESTAMP})
@@ -293,4 +293,9 @@
       #{item.columnId,jdbcType=VARCHAR}
     </foreach>
   </delete>
+
+  <delete id="deleteByViewId" parameterType="java.lang.String">
+    delete from DSM_QUERY_VIEW_COLUMN where VIEW_ID =  #{viewId,jdbcType=VARCHAR}
+  </delete>
+
 </mapper>

@@ -50,4 +50,11 @@ public class DsmQueryViewController {
         return result;
     }
 
+    @PostMapping("/makeSql")
+    public DataResult makeSql(@RequestBody DsmQueryView dsmQueryView){
+        DataResult result= DataResult.success();
+        result.setData(dsmQueryViewService.makeSql(dsmQueryView));
+        return result;
+    }
+
 }

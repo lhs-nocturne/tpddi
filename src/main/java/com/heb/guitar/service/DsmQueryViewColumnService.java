@@ -12,4 +12,8 @@ public interface DsmQueryViewColumnService {
 
     int batchDeleteViewColumns(List<DsmQueryViewColumn> list);
 
+    int update(DsmQueryViewColumn dsmQueryViewColumn);
+
+    int insert(DsmQueryViewColumn dsmQueryViewColumn);
+
 }

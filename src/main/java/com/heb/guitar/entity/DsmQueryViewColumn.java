@@ -24,7 +24,7 @@ public class DsmQueryViewColumn implements Serializable {
 
     private Integer isQuery;
 
-    private Integer conditionType;
+    private String conditionType;
 
     private Integer conditionRequired;
 
@@ -124,11 +124,11 @@ public class DsmQueryViewColumn implements Serializable {
         this.isQuery = isQuery;
     }
 
-    public Integer getConditionType() {
+    public String getConditionType() {
         return conditionType;
     }
 
-    public void setConditionType(Integer conditionType) {
+    public void setConditionType(String conditionType) {
         this.conditionType = conditionType;
     }
 

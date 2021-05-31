@@ -176,4 +176,9 @@
       </if>
     </where>
   </select>
+
+  <select id="selectAllViews" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"></include> from DSM_QUERY_VIEW
+  </select>
+
 </mapper>

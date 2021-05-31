@@ -1,16 +1,16 @@
 package com.heb.guitar.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.heb.guitar.aop.annotation.MyLog;
 import com.heb.guitar.constants.Constant;
 import com.heb.guitar.entity.SysUser;
 import com.heb.guitar.exception.code.BaseResponseCode;
+import com.heb.guitar.service.DsmUserViewService;
 import com.heb.guitar.service.UserService;
 import com.heb.guitar.utils.DataResult;
 import com.heb.guitar.utils.JwtTokenUtil;
 import com.heb.guitar.vo.req.*;
-import com.heb.guitar.vo.resp.LoginRespVO;
-import com.heb.guitar.vo.resp.PageVO;
-import com.heb.guitar.vo.resp.UserOwnRoleRespVO;
+import com.heb.guitar.vo.resp.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -37,11 +37,16 @@ public class UserController {
 
     @Resource
     private UserService userService;
+    @Resource
+    private DsmUserViewService dsmUserViewService;
 
     @PostMapping("/user/login")
     @ApiOperation(value = "用户登录接口")
     @MyLog(title = "用户管理",action = "用户登录")
     public DataResult<LoginRespVO> login(@RequestBody LoginReqVO vo) {
+        if(StringUtils.isEmpty(vo.getType())){
+            vo.setType("1");
+        }
         DataResult<LoginRespVO> result = DataResult.success(userService.login(vo));
         return result;
     }
@@ -100,6 +105,22 @@ public class UserController {
     public DataResult saveUserOwnRole(@RequestBody @Valid UserRoleOperationReqVO vo){
         DataResult result=DataResult.success();
         userService.setUserOwnRole(vo);
+        return result;
+    }
+
+    @GetMapping("/user/views/{userId}")
+    @ApiOperation(value = "赋予角色-获取用户拥有角色接口")
+    public DataResult<UserOwnViewRespVO> getUserOwnView(@PathVariable("userId")String userId){
+        DataResult<UserOwnViewRespVO> result=DataResult.success();
+        result.setData(userService.getUserOwnViews(userId));
+        return result;
+    }
+
+    @PutMapping("/user/views")
+    @ApiOperation(value = "保持用户拥有的角色信息接口")
+    public DataResult saveUserOwnViews(@RequestBody @Valid UserViewOperationReqVO vo){
+        DataResult result=DataResult.success();
+        dsmUserViewService.setUserOwnView(vo);
         return result;
     }
 

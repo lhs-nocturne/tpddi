@@ -22,4 +22,6 @@ public interface DsmQueryViewColumnMapper {
     int batchSave(List<DsmQueryViewColumn> list);
 
     int batchDeleteViewColumns(List<DsmQueryViewColumn> list);
+
+    int deleteByViewId(String viewId);
 }

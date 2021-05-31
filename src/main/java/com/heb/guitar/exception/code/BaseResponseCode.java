@@ -15,12 +15,12 @@ public enum BaseResponseCode implements ResponseCodeInterface{
     SYSTEM_ERROR(5000001,"系统异常"),
     DATA_ERROR(4000001,"数据异常"),
     VALIDATOR_ERROR(4000002,"校验异常"),
-    NOT_ACCOUNT(4000003,"账号不存在，请注册"),
+    NOT_ACCOUNT(4000003,"账号不存在"),
     USER_LOCK(4000004,"该账号已被锁定，请联系系统管理员"),
     PASSWORD_ERROR(4000005,"密码错误"),
     EXIST_ACCOUNT(4000006,"账号已存在"),
     TOKEN_ERROR(4010001,"用户未登录，请重新登录"),
-    TOKEN_NOT_NULL(4010001,"认证凭证不能为空，请重新登录获取"),
+    TOKEN_NOT_NULL(4010001,"token认证不能为空，请重新登录获取token"),
     SHIRO_AUTHENTICATION_ERROR(4010001,"token认证失败，请重新登录获取最新token"),
     ACCOUNT_HAS_DELETED_ERROR(4010001,"账号已被删除"),
     TOKEN_PASS_DUE(4010002,"token失效，请重新刷新token"),
@@ -37,6 +37,16 @@ public enum BaseResponseCode implements ResponseCodeInterface{
     NOT_PERMISSION_DELETED_DEPT(4010015,"该组织机构下还关联着用户，不允许删除"),
     OLD_PASSWORD_ERROR(4010016,"旧密码不正确"),
     LOG_ERROR(4010017,"日志写入异常"),
+    CONNECT_ERROR(4010018,"数据源连接失败"),
+    /**
+     * 接口服务相关错误提示
+     */
+    VIEW_NOTNULL(4000050,"无效的服务ID"),
+    PARAMS_NOTNULL(4000051,"未传参数"),
+    NOT_MATCH_COLUMN(4000052,"无匹配查询列"),
+    STOP_SERVER(4000053,"该服务已被停用"),
+    NO_PARSE_JSON(4000054,"参数解析失败"),
+    NO_USER_VIEW(4000055,"未授权的视图"),
     ;
 
     BaseResponseCode(int code, String msg) {

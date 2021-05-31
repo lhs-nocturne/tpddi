@@ -1,18 +1,24 @@
 package com.heb.guitar.service.impl;
 
 import com.heb.guitar.constants.Constant;
+import com.heb.guitar.entity.DsmQueryView;
 import com.heb.guitar.entity.SysRole;
 import com.heb.guitar.entity.SysUser;
 import com.heb.guitar.exception.BusinessException;
 import com.heb.guitar.exception.code.BaseResponseCode;
+import com.heb.guitar.mapper.DsmQueryViewMapper;
+import com.heb.guitar.mapper.DsmUserViewMapper;
 import com.heb.guitar.mapper.SysUserMapper;
 import com.heb.guitar.service.*;
 import com.heb.guitar.utils.JwtTokenUtil;
 import com.heb.guitar.utils.PasswordUtils;
 import com.heb.guitar.utils.TokenSettings;
+import com.heb.guitar.vo.profession.resp.QueryViewRespVO;
 import com.heb.guitar.vo.req.*;
 import com.heb.guitar.vo.resp.LoginRespVO;
 import com.heb.guitar.vo.resp.UserOwnRoleRespVO;
+import com.heb.guitar.vo.resp.UserOwnViewRespVO;
+import com.heb.guitar.vo.resp.UserViewOperationReqVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -46,6 +52,10 @@ public class UserServiceImpl implements UserService {
     private TokenSettings tokenSettings;
     @Resource
     private PermissionService permissionService;
+    @Resource
+    private DsmUserViewMapper dsmUserViewMapper;
+    @Resource
+    private DsmQueryViewMapper dsmQueryViewMapper;
 
     @Override
     public LoginRespVO login(LoginReqVO vo) {
@@ -292,6 +302,18 @@ public class UserServiceImpl implements UserService {
          */
         redisService.delete(Constant.IDENTIFY_CACHE_KEY+userId);
     }
+
+    @Override
+    public UserOwnViewRespVO getUserOwnViews(String userId) {
+        List<String> ownViews = dsmUserViewMapper.getViewByUserId(userId);
+        List<DsmQueryView> allViews = dsmQueryViewMapper.selectAllViews();
+        UserOwnViewRespVO userOwnViewRespVO = new UserOwnViewRespVO();
+        userOwnViewRespVO.setOwnViews(ownViews);
+        userOwnViewRespVO.setAllViews(allViews);
+        return userOwnViewRespVO;
+    }
+
+
 
     /**
      * 检查用户是否已存在
