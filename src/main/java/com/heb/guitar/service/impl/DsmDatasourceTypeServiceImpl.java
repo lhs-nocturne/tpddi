@@ -2,6 +2,8 @@ package com.heb.guitar.service.impl;
 
 import com.heb.guitar.constants.Constant;
 import com.heb.guitar.entity.DsmDatasourceType;
+import com.heb.guitar.exception.BusinessException;
+import com.heb.guitar.exception.code.BaseResponseCode;
 import com.heb.guitar.mapper.DsmDatasourceTypeMapper;
 import com.heb.guitar.service.DsmDatasourceTypeService;
 import com.heb.guitar.utils.JwtTokenUtil;
@@ -31,6 +33,9 @@ public class DsmDatasourceTypeServiceImpl implements DsmDatasourceTypeService {
 
     @Override
     public int deleted(String id) {
+        if(dsmDatasourceTypeMapper.isUse(id)>0){
+            throw new BusinessException(BaseResponseCode.DELETE_ERROR);
+        }
         return dsmDatasourceTypeMapper.deleteByPrimaryKey(id);
     }
 

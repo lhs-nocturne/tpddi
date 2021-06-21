@@ -38,6 +38,7 @@ public enum BaseResponseCode implements ResponseCodeInterface{
     OLD_PASSWORD_ERROR(4010016,"旧密码不正确"),
     LOG_ERROR(4010017,"日志写入异常"),
     CONNECT_ERROR(4010018,"数据源连接失败"),
+    DELETE_ERROR(4010019,"该数据正在使用中，不允许删除。"),
     /**
      * 接口服务相关错误提示
      */

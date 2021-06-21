@@ -172,4 +172,9 @@
     from DSM_DATASOURCE_TYPE
   </select>
 
+  <select id="isUse" resultType="long" parameterType="java.lang.String">
+    select count(*) as num
+    from DSM_DATASOURCE where DATASOURCE_TYPE = #{typeId,jdbcType=VARCHAR}
+  </select>
+
 </mapper>

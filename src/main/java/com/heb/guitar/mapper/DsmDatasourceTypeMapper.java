@@ -23,4 +23,6 @@ public interface DsmDatasourceTypeMapper {
 
     List<DsmDatasourceType> all();
 
+    long isUse(String typeId);
+
 }
