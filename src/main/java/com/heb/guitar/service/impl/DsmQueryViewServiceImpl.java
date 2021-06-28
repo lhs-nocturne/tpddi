@@ -151,9 +151,9 @@ public class DsmQueryViewServiceImpl implements DsmQueryViewService {
                         }
                         //模糊查询
                         if(column.getConditionType().equals("like")){
-                            whereBuffer.append(" LIKE '%' :");
+                            whereBuffer.append(" LIKE CONCAT('%', :");
                             whereBuffer.append(column.getColumnName());
-                            whereBuffer.append(" '%'");
+                            whereBuffer.append(" ,'%')");
                         }
                     }
                     i++;
